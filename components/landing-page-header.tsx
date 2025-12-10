@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useStackApp, useUser } from "@stackframe/stack";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
@@ -10,6 +9,9 @@ import { ColorModeSwitcher } from "./color-mode-switcher";
 import { Logo } from "./logo";
 import { Button, buttonVariants } from "./ui/button";
 
+const PHONE_DISPLAY = "+1 (931) 209-4395";
+const PHONE_LINK = "tel:+19312094395";
+
 interface NavProps {
   items?: {
     title: string;
@@ -17,52 +19,6 @@ interface NavProps {
     disabled?: boolean;
     external?: boolean;
   }[];
-}
-
-function SignInSignUpButtons() {
-  const app = useStackApp();
-  return (
-    <>
-      <Link
-        href={app.urls.signIn}
-        className={buttonVariants({ variant: "secondary" })}
-      >
-        Sign In
-      </Link>
-
-      <Link
-        href={app.urls.signUp}
-        className={buttonVariants({ variant: "default" })}
-      >
-        Sign Up
-      </Link>
-    </>
-  );
-}
-
-function AuthButtonsInner() {
-  const user = useUser();
-
-  if (user) {
-    return (
-      <Link
-        href="/dashboard"
-        className={buttonVariants({ variant: "default" })}
-      >
-        Dashboard
-      </Link>
-    );
-  } else {
-    return <SignInSignUpButtons />;
-  }
-}
-
-function AuthButtons() {
-  return (
-    <React.Suspense fallback={<SignInSignUpButtons />}>
-      <AuthButtonsInner />
-    </React.Suspense>
-  );
 }
 
 function MobileItems(props: NavProps) {
@@ -86,8 +42,14 @@ function MobileItems(props: NavProps) {
           ))}
 
           <div className="flex flex-col gap-2 mt-4">
-            <AuthButtons />
+            <Link
+              href={PHONE_LINK}
+              className={buttonVariants({ size: "lg" })}
+            >
+              {PHONE_DISPLAY}
+            </Link>
           </div>
+
         </nav>
       </div>
     </div>
@@ -151,9 +113,12 @@ export function LandingPageHeader(props: NavProps) {
 
         <div className="flex gap-4 items-center">
           <ColorModeSwitcher />
-          <nav className="gap-4 items-center hidden md:flex">
-            <AuthButtons />
-          </nav>
+          <Link
+            href={PHONE_LINK}
+            className={buttonVariants({ size: "lg" })}
+          >
+            Call us
+          </Link>
         </div>
       </div>
     </header>

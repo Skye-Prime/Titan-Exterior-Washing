@@ -1,189 +1,209 @@
-import { FeatureGrid } from "@/components/features";
 import { Hero } from "@/components/hero";
-import { PricingGrid } from "@/components/pricing";
-import { stackServerApp } from "@/stack";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { ComponentIcon, Users } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Camera, Clock, LockKeyhole, MapPin, PhoneCall } from "lucide-react";
+import Link from "next/link";
+import officeImage from "@/assets/office-image.jpg";
 
-export default async function IndexPage() {
-  const project = await stackServerApp.getProject();
-  if (!project.config.clientTeamCreationEnabled) {
-    return (
-      <div className="w-full min-h-96 flex items-center justify-center">
-        <div className="max-w-xl gap-4">
-          <p className="font-bold text-xl">Setup Required</p>
-          <p className="">
-            {
-              "To start using this project, please enable client-side team creation in the Stack Auth dashboard (Project > Team Settings). This message will disappear once the feature is enabled."
-            }
-          </p>
-        </div>
-      </div>
-    );
-  }
+const PHONE_DISPLAY = "+1 (931) 209-4395";
+const PHONE_LINK = "tel:+19312094395";
 
+const features = [
+  {
+    icon: <LockKeyhole className="h-10 w-10 text-primary" />,
+    title: "Gated access",
+    description:
+      "Controlled entry so only authorized tenants can access the property.",
+  },
+  {
+    icon: <Camera className="h-10 w-10 text-primary" />,
+    title: "24/7 surveillance",
+    description:
+      "Top-of-the-line security cameras keep an eye on your belongings around the clock.",
+  },
+  {
+    icon: <MapPin className="h-10 w-10 text-primary" />,
+    title: "Located in Middle Tennessee",
+    description:
+      "Serving our local community with easy access and responsive support.",
+  },
+  {
+    icon: <PhoneCall className="h-10 w-10 text-primary" />,
+    title: "Friendly, local team",
+    description:
+      "Call us anytime for quick answers about availability, unit sizes, and move-ins.",
+  },
+  {
+    icon: <Clock className="h-10 w-10 text-primary" />,
+    title: "Convenient hours",
+    description: "Office: Mon–Fri 8am–5pm. Storage access: daily 5am–11pm.",
+  },
+];
+
+export default function IndexPage() {
   return (
     <>
       <Hero
-        capsuleText="100% Open-source & Free"
-        capsuleLink="https://stacktemplate.com"
-        title="A Multi-tenant Next.js Starter Template"
-        subtitle="Built for developers, by developers. Next.js + Shadcn UI + Stack Auth."
-        primaryCtaText="Get Started"
-        primaryCtaLink={stackServerApp.urls.signUp}
-        secondaryCtaText="GitHub"
-        secondaryCtaLink="https://github.com/stack-auth/stack-template"
-        credits={
-          <>
-            Crafted with ❤️ by{" "}
-            <a
-              href="https://stack-auth.com"
-              target="_blank"
-              rel="noreferrer"
-              className="underline"
+        capsuleText="Middle Tennessee Storage"
+        capsuleLink="#why-360"
+        title="360 Storage Solutions"
+        subtitle="360 Storage Solutions is your local and reliable storage provider. Founded in 2016, we’ve been serving the Middle Tennessee community with easy, secure storage. Breathe easy knowing your belongings are protected by top-of-the-line security cameras and gated access."
+        primaryCtaText="View available units"
+        primaryCtaLink="/units"
+        secondaryCtaText={PHONE_DISPLAY}
+        secondaryCtaLink={PHONE_LINK}
+        imageSrc={officeImage}
+        imageAlt="Exterior of 360 Storage Solutions office"
+        imagePriority
+      />
+
+      <section
+        id="why-360"
+        className="container grid gap-8 py-8 md:grid-cols-3 md:items-start md:py-16 scroll-mt-28"
+      >
+        <div className="md:col-span-1 space-y-4">
+          <p className="text-sm uppercase tracking-[0.2em] text-primary">
+            Why 360
+          </p>
+          <h2 className="text-3xl font-semibold leading-tight">
+            Local, secure, and easy to work with.
+          </h2>
+          <p className="text-muted-foreground">
+            Trusted since 2016 by neighbors across Middle Tennessee. We keep
+            things simple: clean units, secure access, and friendly service.
+          </p>
+          <div className="flex gap-3">
+            <Link
+              href="/units"
+              className={buttonVariants({ size: "lg" })}
             >
-              Stack Auth
-            </a>
-          </>
-        }
-      />
+              Check availability
+            </Link>
+            <Link
+              href={PHONE_LINK}
+              className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+            >
+              {PHONE_DISPLAY}
+            </Link>
+          </div>
+        </div>
 
-      <div id="features" />
-      <FeatureGrid
-        title="Features"
-        subtitle="Unlock powerful capabilities for your project."
-        items={[
-          {
-            icon: (
-              <svg viewBox="0 0 24 24" className="h-12 w-12 fill-current">
-                <path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.573 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z" />
-              </svg>
-            ),
-            title: "Next.js 14",
-            description:
-              "Utilize the latest features: App Router, Layouts, Suspense.",
-          },
-          {
-            icon: (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 256 256"
-                className="h-12 w-12 fill-current"
+        <div className="md:col-span-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((item, idx) => (
+              <div
+                key={idx}
+                className="relative overflow-hidden rounded-lg border bg-background p-2"
               >
-                <rect width="256" height="256" fill="none"></rect>
-                <line
-                  x1="208"
-                  y1="128"
-                  x2="128"
-                  y2="208"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="22"
-                ></line>
-                <line
-                  x1="192"
-                  y1="40"
-                  x2="40"
-                  y2="192"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="22"
-                ></line>
-              </svg>
-            ),
-            title: "Shadcn UI",
-            description:
-              "Modern and fully customizable UI components based on Tailwind CSS.",
-          },
-          {
-            icon: (
-              <svg
-                width="201"
-                height="242"
-                viewBox="0 0 201 242"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 fill-current"
-              >
-                <path d="M104.004 1.78785C101.751 0.662376 99.1002 0.663161 96.8483 1.78998L4.9201 47.7892C2.21103 49.1448 0.5 51.9143 0.5 54.9436V130.526C0.5 133.556 2.2123 136.327 4.92292 137.682L96.9204 183.67C99.1725 184.796 101.823 184.796 104.075 183.67L168.922 151.246C174.242 148.587 180.5 152.455 180.5 158.402V168.855C180.5 171.885 178.788 174.655 176.078 176.01L104.077 212.011C101.825 213.137 99.1745 213.137 96.9224 212.012L12.0771 169.598C6.75791 166.939 0.5 170.807 0.5 176.754V187.048C0.5 190.083 2.21689 192.856 4.93309 194.209L97.0051 240.072C99.2529 241.191 101.896 241.191 104.143 240.07L196.071 194.21C198.785 192.857 200.5 190.084 200.5 187.052V119.487C200.5 113.54 194.242 109.672 188.922 112.332L132.078 140.754C126.758 143.414 120.5 139.546 120.5 133.599V123.145C120.5 120.115 122.212 117.345 124.922 115.99L196.078 80.4124C198.788 79.0573 200.5 76.2872 200.5 73.257V54.9468C200.5 51.9158 198.787 49.1451 196.076 47.7904L104.004 1.78785Z" />
-              </svg>
-            ),
-            title: "Stack Auth",
-            description:
-              "Comprehensive Authentication: OAuth, User Management, and more.",
-          },
-          {
-            icon: <Users className="h-12 w-12" />,
-            title: "Multi-tenancy & RBAC",
-            description: "Built-in Teams and Permissions.",
-          },
-          {
-            icon: <GitHubLogoIcon className="h-12 w-12" />,
-            title: "100% Open-source",
-            description: "Open-source and self-hostable codebase.",
-          },
-          {
-            icon: <ComponentIcon className="h-12 w-12" />,
-            title: "Modular Design",
-            description: "Easily extend and customize. No spaghetti code.",
-          },
-        ]}
-      />
+                <div className="flex h-full flex-col rounded-md p-6 gap-4">
+                  {item.icon}
+                  <div className="space-y-2">
+                    <h3 className="font-bold">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <div id="pricing" />
-      <PricingGrid
-        title="Pricing"
-        subtitle="Flexible plans for every team."
-        items={[
-          {
-            title: "Basic",
-            price: "Free",
-            description: "For individuals and small projects.",
-            features: [
-              "Full source code",
-              "100% Open-source",
-              "Community support",
-              "Free forever",
-              "No credit card required",
-            ],
-            buttonText: "Get Started",
-            buttonHref: stackServerApp.urls.signUp,
-          },
-          {
-            title: "Pro",
-            price: "$0.00",
-            description: "Ideal for growing teams and businesses.",
-            features: [
-              "Full source code",
-              "100% Open-source",
-              "Community support",
-              "Free forever",
-              "No credit card required",
-            ],
-            buttonText: "Upgrade to Pro",
-            isPopular: true,
-            buttonHref: stackServerApp.urls.signUp,
-          },
-          {
-            title: "Enterprise",
-            price: "Still Free",
-            description: "For large organizations.",
-            features: [
-              "Full source code",
-              "100% Open-source",
-              "Community support",
-              "Free forever",
-              "No credit card required",
-            ],
-            buttonText: "Contact Us",
-            buttonHref: stackServerApp.urls.signUp,
-          },
-        ]}
-      />
+      <section className="container py-8 md:py-16">
+        <div className="grid gap-6 md:grid-cols-2 md:items-center">
+          <Card className="h-full shadow-sm">
+            <CardContent className="space-y-4 p-6 md:p-10">
+              <p className="text-sm uppercase tracking-[0.2em] text-primary">
+                What to expect
+              </p>
+              <h3 className="text-2xl font-semibold">
+                Clean units, secure access, straightforward pricing.
+              </h3>
+              <ul className="space-y-3 text-muted-foreground">
+                <li>Indoor and drive-up options sized for homes and businesses.</li>
+                <li>Security-first property with cameras and gated entry.</li>
+                <li>Fast move-ins with online reservations coming soon.</li>
+                <li>Local support to help you pick the right unit.</li>
+              </ul>
+              <div className="flex gap-3">
+                <Link
+                  href="/units"
+                  className={buttonVariants({ size: "lg" })}
+                >
+                  View units
+                </Link>
+                <Link
+                  href={PHONE_LINK}
+                  className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+                >
+                  {PHONE_DISPLAY}
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="h-full border-dashed">
+            <CardContent className="space-y-4 p-6 md:p-10">
+              <p className="text-sm uppercase tracking-[0.2em] text-primary">
+                Coming soon
+              </p>
+              <h3 className="text-2xl font-semibold">
+                Live availability & online rentals
+              </h3>
+              <p className="text-muted-foreground">
+                We’re integrating directly with our U-Haul WebSelfStorage system
+                so you can see real-time availability, reserve, and move in from
+                this site. Until then, give us a call and we’ll hold the right
+                unit for you.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section
+        id="contact"
+        className="container py-12 md:py-20 scroll-mt-28"
+      >
+        <div className="rounded-2xl bg-muted px-6 py-10 md:px-12 md:py-14">
+          <div className="grid gap-6 md:grid-cols-2 md:items-center">
+            <div className="space-y-3">
+              <p className="text-sm uppercase tracking-[0.2em] text-primary">
+                Contact
+              </p>
+              <h3 className="text-3xl font-semibold">Call now for more information</h3>
+              <p className="text-muted-foreground">
+                We’ll answer questions about sizing, availability, and move-in
+                timing. Let us know what you’re storing and we’ll recommend the
+                best fit.
+              </p>
+              <div className="text-sm text-muted-foreground space-y-1">
+                <p className="font-medium text-foreground">2237 W Broad St</p>
+                <p className="font-medium text-foreground">Cookeville, TN 38501</p>
+                <p className="text-foreground">United States</p>
+                <p>Office: Mon–Fri 8am–5pm (Sat–Sun closed)</p>
+                <p>Storage access: Mon–Sun 5am–11pm</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href={PHONE_LINK}
+                className={buttonVariants({ size: "lg" })}
+              >
+                {PHONE_DISPLAY}
+              </Link>
+              <Link
+                href="/units"
+                className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+              >
+                Explore units
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

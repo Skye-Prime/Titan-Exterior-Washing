@@ -7,19 +7,13 @@ export default function Layout(props: { children: React.ReactNode }) {
       <LandingPageHeader
         items={[
           { title: "Home", href: "/" },
-          { title: "Features", href: "/#features" },
-          { title: "Pricing", href: "/#pricing" },
-          { title: "Github", href: "https://github.com/stack-auth/stack-template", external: true },
+          { title: "Why 360", href: "/#why-360" },
+          { title: "Units", href: "/units" },
+          { title: "Contact", href: "/#contact" },
         ]}
       />
       <main className="flex-1">{props.children}</main>
-      <Footer
-        builtBy="Stack Auth"
-        builtByLink="https://stack-auth.com/"
-        githubLink="https://github.com/stack-auth/stack-template"
-        twitterLink="https://twitter.com/stack_auth"
-        linkedinLink="linkedin.com/company/stack-auth"
-      />
+      <Footer />
     </div>
   );
 }
