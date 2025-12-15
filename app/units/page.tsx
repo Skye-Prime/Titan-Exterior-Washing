@@ -1,44 +1,29 @@
+import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { DoorOpen, Move, ShieldCheck, Truck } from "lucide-react";
-import Link from "next/link";
+import { getAvailableUnits, WssUnit } from "@/lib/wssClient";
+import UnitsGrid from "./units-grid";
 
 const PHONE_DISPLAY = "+1 (931) 209-4395";
 const PHONE_LINK = "tel:+19312094395";
 
-const placeholderUnits = [
-  {
-    name: "Drive-up",
-    size: "10' x 15'",
-    note: "Great for a 2-bedroom home or business inventory.",
-  },
-  {
-    name: "Indoor",
-    size: "5' x 10'",
-    note: "Perfect for seasonal items or apartment overflow.",
-  },
-  {
-    name: "Drive-up",
-    size: "10' x 25'",
-    note: "Fits a whole household or small vehicle.",
-  },
-];
+export default async function UnitsPage() {
+  const { units, error } = await loadUnits();
 
-export default function UnitsPage() {
   return (
-    <div className="container space-y-10 py-12 md:py-16">
+    <div className="container max-w-6xl space-y-10 py-12 md:py-16">
       <div className="space-y-4 text-center">
         <p className="text-sm uppercase tracking-[0.2em] text-primary">
           Units
         </p>
         <h1 className="text-3xl md:text-4xl font-semibold">
-          Find the right fit for your storage needs
+          Reserve or move in online
         </h1>
         <p className="text-muted-foreground max-w-3xl mx-auto">
-          Live availability and online rentals are coming soon. Until then,
-          choose the size that fits best and give us a call—we’ll confirm the
-          perfect unit and reserve it for you.
+          Live availability direct from our WebSelfStorage system. Pick your
+          unit and start your move-in now, or call and we will hold the best fit
+          for you.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link href={PHONE_LINK} className={buttonVariants({ size: "lg" })}>
@@ -53,39 +38,34 @@ export default function UnitsPage() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        {placeholderUnits.map((unit, index) => (
-          <Card key={index} className="h-full">
-            <CardHeader className="space-y-1">
-              <CardTitle className="text-xl">{unit.name}</CardTitle>
-              <p className="text-sm text-muted-foreground">{unit.size}</p>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-sm text-muted-foreground">{unit.note}</p>
-              <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-                <span className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1">
-                  <ShieldCheck className="h-4 w-4" /> Secure access
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1">
-                  <DoorOpen className="h-4 w-4" /> Easy entry
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1">
-                  <Truck className="h-4 w-4" /> Drive-up friendly
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1">
-                  <Move className="h-4 w-4" /> Flexible sizing
-                </span>
-              </div>
-              <Link
-                href={PHONE_LINK}
-                className={buttonVariants({ variant: "outline", className: "w-full" })}
-              >
-                Call to reserve
-              </Link>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {error ? (
+        <Card className="max-w-3xl mx-auto">
+          <CardHeader>
+            <CardTitle>Availability temporarily unavailable</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-muted-foreground">
+            <p>{error}</p>
+            <p>Please call and we will reserve a unit for you.</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <UnitsGrid units={units} />
+      )}
     </div>
   );
+}
+
+async function loadUnits(): Promise<{ units: WssUnit[]; error?: string }> {
+  try {
+    const locationId = process.env.WSS_ENTITY_ID;
+    if (!locationId) {
+      return { units: [], error: "Location ID is not configured." };
+    }
+
+    const units = await getAvailableUnits({ locationId });
+    return { units };
+  } catch (err) {
+    console.error("Failed to load units", err);
+    return { units: [], error: "We could not load availability right now." };
+  }
 }
