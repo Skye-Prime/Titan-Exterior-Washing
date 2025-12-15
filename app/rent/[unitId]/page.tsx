@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -7,6 +8,16 @@ import { RentForm } from "./rent-form";
 
 const PHONE_DISPLAY = "+1 (931) 209-4395";
 const PHONE_LINK = "tel:+19312094395";
+
+export const metadata: Metadata = {
+  title: "Reserve a Storage Unit Online | 360 Storage Solutions",
+  description:
+    "Finish your Cookeville, TN storage unit reservation securely with 360 Storage Solutions.",
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
 type RentPageParams = {
   params: Promise<{ unitId: string }>;

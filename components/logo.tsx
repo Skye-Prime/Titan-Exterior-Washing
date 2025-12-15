@@ -1,10 +1,46 @@
-import { cn } from "@/lib/utils";
 import Link from "next/link";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import logoHorizontal from "@/assets/360 logo - Horizontal.png";
+import logoVertical from "@/assets/360 logo - Vertical.png";
+import logoMark from "@/assets/360 logo.png";
 
-export function Logo(props: { className?: string, link?: string }) {
+type LogoProps = {
+  className?: string;
+  link?: string;
+  variant?: "horizontal" | "vertical" | "mark";
+};
+
+export function Logo({ className, link, variant = "horizontal" }: LogoProps) {
+  const src =
+    variant === "vertical"
+      ? logoVertical
+      : variant === "mark"
+        ? logoMark
+        : logoHorizontal;
+
+  const dimensions =
+    variant === "vertical"
+      ? { width: 200, height: 300 }
+      : variant === "mark"
+        ? { width: 180, height: 180 }
+        : { width: 300, height: 200 };
+
   return (
-    <Link href={props.link ?? '/'} className={cn("items-center space-x-2", props.className)}>
-      <span className="font-bold sm:inline-block">360 Self Storage</span>
+    <Link
+      href={link ?? "/"}
+      className={cn("flex items-center", className)}
+      aria-label="360 Storage Solutions"
+    >
+      <Image
+        src={src}
+        alt="360 Storage Solutions logo"
+        {...dimensions}
+        priority
+        className="h-16 w-auto md:h-20"
+        sizes="(max-width: 768px) 200px, 260px"
+      />
+      <span className="sr-only">360 Storage Solutions</span>
     </Link>
   );
 }

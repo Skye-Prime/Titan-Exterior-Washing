@@ -89,7 +89,7 @@ export function LandingPageHeader(props: NavProps) {
     <header className="fixed w-full z-50 bg-background/80 px-4 md:px-8 backdrop-blur">
       <div className="flex h-18 items-center justify-between py-4">
         <div className="flex items-center gap-4 md:gap-10">
-          <Logo className="hidden md:flex" />
+          <Logo className="hidden md:flex" variant="horizontal" />
 
           {props.items?.length ? <DesktopItems items={props.items} /> : null}
 
@@ -106,7 +106,7 @@ export function LandingPageHeader(props: NavProps) {
             )}
           </Button>
 
-          <Logo className="md:hidden" />
+          <Logo className="md:hidden" variant="mark" />
 
           {showMobileMenu && props.items && <MobileItems items={props.items} />}
         </div>

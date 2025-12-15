@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -7,6 +8,15 @@ import UnitsGrid from "./units-grid";
 
 const PHONE_DISPLAY = "+1 (931) 209-4395";
 const PHONE_LINK = "tel:+19312094395";
+
+export const metadata: Metadata = {
+  title: "Storage Units in Cookeville, TN | 360 Storage Solutions",
+  description:
+    "Browse climate-controlled and drive-up storage units with live availability in Cookeville, Tennessee. Reserve or move in online at 360 Storage Solutions.",
+  alternates: {
+    canonical: "/units",
+  },
+};
 
 export default async function UnitsPage() {
   const { units, error } = await loadUnits();

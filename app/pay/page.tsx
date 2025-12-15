@@ -1,8 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
+import type { Metadata } from "next";
 
 const portalUrl = process.env.NEXT_PUBLIC_WSS_PAYMENT_PORTAL_URL;
+
+export const metadata: Metadata = {
+  title: "Pay Your Storage Bill Securely | 360 Storage Solutions",
+  description:
+    "Access the secure online payment portal for 360 Storage Solutions tenants.",
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
 export default function PayPage() {
   useEffect(() => {
