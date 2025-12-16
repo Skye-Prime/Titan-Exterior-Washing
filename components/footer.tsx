@@ -10,6 +10,8 @@ export function Footer() {
         </div>
         <p className="text-sm text-muted-foreground">
           Call now for more information and to reserve your space.
+          <br />
+          <span className="text-foreground font-semibold">+1 (931) 209-4395</span>
         </p>
       </div>
     </footer>

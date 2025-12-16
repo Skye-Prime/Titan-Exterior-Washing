@@ -305,6 +305,8 @@ function UnitCard({ unit }: { unit: EnrichedUnit }) {
             <Link
               href={paymentPortalUrl || "/pay"}
               className={buttonVariants({ className: "w-full" })}
+              target={paymentPortalUrl ? "_blank" : undefined}
+              rel={paymentPortalUrl ? "noreferrer" : undefined}
             >
               Rent Now
             </Link>

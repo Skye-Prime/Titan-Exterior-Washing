@@ -22,7 +22,7 @@ export default async function UnitsPage() {
   const { units, error } = await loadUnits();
 
   return (
-    <div className="container max-w-6xl space-y-10 py-12 md:py-16">
+    <div className="container max-w-6xl space-y-10 py-12 md:py-16 pt-24 md:pt-28">
       <div className="space-y-4 text-center">
         <p className="text-sm uppercase tracking-[0.2em] text-primary">
           Units

@@ -8,6 +8,7 @@
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
+    --header-height: 0px;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
     /* UT Orange for primary/accents (#FF8200) */
@@ -63,6 +64,14 @@
 @layer base {
   * {
     @apply border-border;
+  }
+  html {
+    font-size: 17px;
+  }
+  @media (min-width: 768px) {
+    html {
+      font-size: 18px;
+    }
   }
   body {
     @apply bg-background text-foreground;

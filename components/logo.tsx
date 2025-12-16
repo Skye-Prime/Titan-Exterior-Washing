@@ -37,7 +37,7 @@ export function Logo({ className, link, variant = "horizontal" }: LogoProps) {
         alt="360 Storage Solutions logo"
         {...dimensions}
         priority
-        className="h-16 w-auto md:h-20"
+        className="h-16 w-auto md:h-20 drop-shadow-[0_8px_20px_rgba(0,0,0,0.18)]"
         sizes="(max-width: 768px) 200px, 260px"
       />
       <span className="sr-only">360 Storage Solutions</span>
