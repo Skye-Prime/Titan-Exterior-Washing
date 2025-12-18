@@ -63,7 +63,7 @@ A minimalistic multi-tenant Next.js starter template with minimal setup and a mo
 
 ## Single-tenant deployment for 360 Storage Solutions
 
-For this project the multi-tenant features are not used. Configure a single domain for 360 Storage Solutions, disable any tenant signup flows, and supply the WebSelfStorage environment variables (`WSS_API_KEY`, `WSS_ENTITY_ID`, `WSS_API_BASE_URL`, `WSS_PAYMENT_PORTAL_URL`, `NEXT_PUBLIC_WSS_PAYMENT_PORTAL_URL`) in your `.env.local`.
+For this project the multi-tenant features are not used. Configure a single domain for 360 Storage Solutions, disable any tenant signup flows, and supply the WebSelfStorage environment variables (`WSS_API_KEY`, `WSS_ENTITY_ID`, `WSS_API_BASE_URL`, `WSS_PAYMENT_PORTAL_URL`, `NEXT_PUBLIC_WSS_PAYMENT_PORTAL_URL`, and a move-in checkout URL such as `NEXT_PUBLIC_WSS_MOVE_IN_URL` or `NEXT_PUBLIC_WSS_MOVE_IN_URL_TEMPLATE`) in your `.env.local`.
 
 ## Inspired by
 

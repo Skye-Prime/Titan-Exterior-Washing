@@ -7,7 +7,6 @@ import { Camera, Clock, LockKeyhole, MapPin, PhoneCall, ShieldCheck } from "luci
 import Link from "next/link";
 import Script from "next/script";
 import officeImage from "@/assets/office-image.jpg";
-import officePhoto from "@/assets/Office.jpg";
 import middlePhoto from "@/assets/middle.jpg";
 import rvLotFirst from "@/assets/RV Storage - First lot.jpg";
 import reviewsBackground from "@/assets/background image 1.jpg";
@@ -53,7 +52,8 @@ const features = [
   {
     icon: <Clock className="h-10 w-10 text-primary" />,
     title: "Convenient hours",
-    description: "Office: Mon–Fri 8am–5pm. Storage access: daily 5am–11pm.",
+    description:
+      "Office: Mon–Fri 10am–5pm or by appointment. Storage access: 24/7.",
   },
   {
     icon: <ShieldCheck className="h-10 w-10 text-primary" />,
@@ -95,7 +95,7 @@ const faqs = [
   {
     question: "What are your access hours and office hours?",
     answer:
-      "Storage access is available every day from 5am–11pm. Our office is open Monday–Friday, 8am–5pm for in-person assistance.",
+      "Storage access is available 24/7. Our office is open Monday–Friday, 10am–5pm or by appointment for in-person assistance.",
   },
   {
     question: "Can I reserve or move into a storage unit online?",
@@ -185,16 +185,16 @@ const businessJsonLd = {
         "Saturday",
         "Sunday",
       ],
-      opens: "05:00",
-      closes: "23:00",
-      description: "Storage gate access hours",
+      opens: "00:00",
+      closes: "23:59",
+      description: "Storage access 24/7",
     },
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "08:00",
+      opens: "10:00",
       closes: "17:00",
-      description: "Office hours",
+      description: "Office hours or by appointment",
     },
   ],
   areaServed: [
@@ -253,13 +253,12 @@ export default function IndexPage() {
         capsuleText="Cookeville, TN Self Storage"
         capsuleLink="#why-360"
         title="360 Storage Solutions"
-        subtitle="Clean, secure storage with local service. Choose climate-controlled or drive-up units, reserve online in minutes, and move in without any surprises."
+        subtitle="Drive-up storage, climate-controlled units, and RV/boat parking with local service. Reserve online in minutes and move in without surprises."
         primaryCtaText="View available units"
         primaryCtaLink="/units"
         tertiaryCtaText="Pay online"
         tertiaryCtaLink="/pay"
         backgroundImages={[
-          { src: officePhoto, alt: "Exterior of 360 Storage Solutions office" },
           { src: middlePhoto, alt: "Climate-controlled buildings and drive paths" },
           { src: rvLotFirst, alt: "Drive-up storage lot" },
         ]}
@@ -497,7 +496,7 @@ export default function IndexPage() {
                     <p className="font-medium text-foreground">2237 W Broad St</p>
                     <p className="font-medium text-foreground">Cookeville, TN 38501</p>
                     <p className="text-foreground">United States</p>
-                    <p>Office: Mon–Fri 8am–5pm (Sat–Sun closed)</p>
+                    <p>Office: Mon–Fri 10am–5pm or by appointment</p>
                     <p>Storage access: 24/7</p>
                   </div>
                 </div>

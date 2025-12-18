@@ -18,12 +18,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    const result = await createReservation({ locationId, payload: body });
+    const unitId = body.unitId || (body as { unitID?: string }).unitID || body.rentableObjectId;
+    const moveInDate = body.moveInDate || body.expectedMoveInDate;
+
+    // WSS expects a rentableObjectId; map from our unitId for safety.
+    const wssPayload = {
+      ...body,
+      unitId,
+      unitID: unitId,
+      rentableObjectId: body.rentableObjectId ?? unitId,
+      moveInDate,
+      expectedMoveInDate: moveInDate,
+    };
+
+    const result = await createReservation({ locationId, payload: wssPayload });
     return NextResponse.json(result);
   } catch (error) {
     console.error("Error creating WSS reservation", error);
+    const message =
+      error instanceof Error ? error.message : "Failed to create reservation";
     return NextResponse.json(
-      { error: "Failed to create reservation" },
+      { error: message },
       { status: 500 }
     );
   }
@@ -34,11 +49,11 @@ function validatePayload(payload: ReservationPayload) {
     return "Invalid request body";
   }
 
-  if (!payload.unitId) {
+  if (!payload.unitId && !(payload as { unitID?: string }).unitID) {
     return "unitId is required";
   }
 
-  if (!payload.moveInDate) {
+  if (!payload.moveInDate && !payload.expectedMoveInDate) {
     return "moveInDate is required";
   }
 

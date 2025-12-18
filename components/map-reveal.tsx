@@ -186,6 +186,12 @@ export function MapRevealSection() {
       className="relative w-full bg-[#B5D7E9] facility-scroll-section"
       style={{ minHeight: sectionHeight }}
     >
+      <div className="container max-w-6xl pt-8 pb-4 text-center flex justify-center">
+        <div className="inline-flex items-center gap-2 rounded-full bg-white/80 px-5 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary ring-1 ring-primary/15 shadow-sm shadow-primary/10 backdrop-blur">
+          <span className="h-px w-10 bg-primary/50" />
+          <span>Site Map</span>
+        </div>
+      </div>
       <div
         ref={mapContainerRef}
         className="map-pin-container sticky w-full overflow-visible flex items-center justify-center"

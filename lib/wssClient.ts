@@ -4,6 +4,10 @@ type FetchMethod = "GET" | "POST";
 
 export type WssUnit = {
   id: string;
+  // WSS "unitID" (size code) when returned in responses.
+  unitId?: string;
+  // WSS rentableObjectId when returned from move-in availability.
+  rentableObjectId?: string;
   unitNumber?: string;
   name?: string;
   size?: string;
@@ -85,7 +89,10 @@ type WssImagesResponse = {
 
 export type ReservationPayload = {
   unitId: string;
+  unitID?: string;
+  rentableObjectId?: string;
   moveInDate: string;
+  expectedMoveInDate?: string;
   customer: {
     firstName: string;
     lastName: string;
@@ -99,6 +106,58 @@ export type ReservationPayload = {
   };
   notes?: string;
   promoCode?: string;
+  [key: string]: unknown;
+};
+
+export type MoveInCostRequest = {
+  unitId: string;
+  unitID?: string;
+  rentableObjectId?: string;
+  insuranceId?: string;
+  taxExemptNumber?: string;
+  moveInDate: string;
+  expectedMoveInDate?: string;
+  promoCode?: string;
+};
+
+export type MoveInCostResponse = {
+  success?: boolean;
+  total?: number;
+  totalDue?: number;
+  subtotal?: number;
+  totalCost?: number;
+  totalTax?: number;
+  lineItems?: { description?: string; amount?: number }[];
+  costBreakDown?: {
+    discountedRent?: number;
+    discountedTaxAmount?: number;
+    fees?: number;
+    feesTax?: number;
+    insurance?: number;
+    insuranceTax?: number;
+    moveInDeposit?: number;
+    moveInDepositTax?: number;
+    rent?: number;
+    rentTax?: number;
+    reservationDepositCredit?: number;
+    retail?: number;
+    retailTax?: number;
+  };
+  [key: string]: unknown;
+};
+
+export type MoveInPayload = MoveInCostRequest & {
+  customer: ReservationPayload["customer"];
+  payment: {
+    nameOnCard: string;
+    cardNumber: string;
+    expirationMonth: string;
+    expirationYear: string;
+    cvv: string;
+    postalCode?: string;
+  };
+  autoPay?: boolean;
+  notes?: string;
   [key: string]: unknown;
 };
 
@@ -201,94 +260,192 @@ export async function getAvailableUnits(params: { locationId: string }) {
 }
 
 export async function createReservation(params: { locationId: string; payload: ReservationPayload }) {
+  const payload = normalizeReservationPayload(params.payload);
+
   // WSS API: POST /v3/reservation/{entity}
   return request<unknown>(
     `/reservation/${encodeURIComponent(params.locationId)}`,
     "POST",
-    params.payload
+    payload
   );
+}
+
+export async function getMoveInCost(params: { locationId: string; payload: MoveInCostRequest }) {
+  const payload = normalizeMoveInPayload(params.payload);
+
+  return request<MoveInCostResponse>(
+    `/movein/${encodeURIComponent(params.locationId)}/cost`,
+    "GET",
+    undefined,
+    {
+      unitId: payload.unitId,
+      unitID: payload.unitID,
+      rentableObjectId: payload.rentableObjectId,
+      insuranceId: payload.insuranceId,
+      taxExemptNumber: payload.taxExemptNumber,
+      moveInDate: payload.expectedMoveInDate || payload.moveInDate,
+      expectedMoveInDate: payload.expectedMoveInDate || payload.moveInDate,
+      promoCode: payload.promoCode,
+    }
+  );
+}
+
+export async function createMoveIn(params: { locationId: string; payload: MoveInPayload }) {
+  const payload = normalizeMoveInPayload(params.payload);
+
+  // WSS API: POST /v3/movein/{entity}
+  return request<unknown>(
+    `/movein/${encodeURIComponent(params.locationId)}`,
+    "POST",
+    payload
+  );
+}
+
+function normalizeReservationPayload(payload: ReservationPayload) {
+  const normalized = normalizeUnitAndDate(payload);
+
+  return {
+    ...payload,
+    ...normalized,
+  };
+}
+
+function normalizeMoveInPayload<T extends MoveInCostRequest | MoveInPayload>(payload: T) {
+  const normalized = normalizeUnitAndDate(payload);
+  return {
+    ...payload,
+    ...normalized,
+    taxExemptNumber:
+      payload.taxExemptNumber ||
+      ("taxExemptNumber" in payload && payload.taxExemptNumber === "" ? "0" : "0"),
+  };
+}
+
+function normalizeUnitAndDate(
+  payload:
+    | ReservationPayload
+    | MoveInCostRequest
+    | MoveInPayload
+    | {
+      unitId?: string;
+      unitID?: string;
+      rentableObjectId?: string;
+      moveInDate?: string;
+      expectedMoveInDate?: string;
+    }
+) {
+  const unitId = payload.unitID || payload.unitId || payload.rentableObjectId;
+  const moveInDate = payload.expectedMoveInDate || payload.moveInDate;
+
+  return {
+    unitId,
+    unitID: unitId,
+    rentableObjectId: "rentableObjectId" in payload
+      ? payload.rentableObjectId ?? unitId
+      : unitId,
+    moveInDate: moveInDate || payload.moveInDate,
+    expectedMoveInDate: moveInDate || payload.expectedMoveInDate,
+  };
 }
 
 function normalizeMoveInUnits(data: unknown[]): WssUnit[] {
   if (!Array.isArray(data)) return [];
 
-  return data.map((raw) => {
-    const unit = raw as WssMoveInResponse["availableUnits"][number];
-    const rate = unit?.monthly;
-    const id =
-      unit?.rentableObjectId ||
-      unit?.units?.[0]?.unitId ||
-      unit?.units?.[0]?.unitNumber ||
-      crypto.randomUUID();
-    const size =
-      unit?.unitSize ||
-      deriveSizeFromDimensions(unit?.length, unit?.width) ||
-      undefined;
+  return data
+    .map((raw) => {
+      const unit = raw as WssMoveInResponse["availableUnits"][number];
+      const rate = unit?.monthly;
+      const rentableObjectId = unit?.rentableObjectId
+        ? String(unit.rentableObjectId)
+        : undefined;
+      const unitId = unit?.units?.[0]?.unitId
+        ? String(unit.units[0].unitId)
+        : rentableObjectId;
+      const id =
+        unitId ||
+        rentableObjectId ||
+        (unit?.units?.[0]?.unitNumber ? String(unit.units[0].unitNumber) : undefined);
+      const size =
+        unit?.unitSize ||
+        deriveSizeFromDimensions(unit?.length, unit?.width) ||
+        undefined;
 
-    return {
-      id: String(id),
-      unitNumber: unit?.units?.[0]?.unitNumber,
-      size,
-      rate: typeof rate === "number" ? rate : undefined,
-      description: unit?.bonusComments,
-      available: (unit?.vacantUnits ?? 0) > 0,
-      availableCount: unit?.vacantUnits,
-      sizeDescriptions: unit?.sizeDescriptionsField || [],
-      orderGrouping: unit?.orderGrouping,
-    };
-  });
+      if (!id) return null;
+
+      return {
+        id: String(id),
+        unitId,
+        rentableObjectId,
+        unitNumber: unit?.units?.[0]?.unitNumber,
+        size,
+        rate: typeof rate === "number" ? rate : undefined,
+        description: unit?.bonusComments,
+        available: (unit?.vacantUnits ?? 0) > 0,
+        availableCount: unit?.vacantUnits,
+        sizeDescriptions: unit?.sizeDescriptionsField || [],
+        orderGrouping: unit?.orderGrouping,
+      };
+    })
+    .filter((unit): unit is WssUnit => Boolean(unit));
 }
 
 function normalizeLocationUnits(data: unknown[]): WssUnit[] {
   if (!Array.isArray(data)) return [];
 
-  return data.map((raw) => {
-    const unit = raw as WssLocationUnit;
-    const rate = unit?.monthly;
-    const id =
-      unit?.rentableObjectId ||
-      unit?.unitId ||
-      crypto.randomUUID();
-    const size =
-      unit?.unitSize ||
-      deriveSizeFromDimensions(unit?.length, unit?.width) ||
-      undefined;
-    const imageUrl =
-      unit?.unitTypeImage?.mainImage ||
-      unit?.unitTypeImage?.thumbImage ||
-      undefined;
-    const access =
-      unit?.unitFeature?.access ||
-      unit?.accessType ||
-      (unit as Record<string, unknown>).access ||
-      undefined;
-    const isClimate =
-      typeof unit?.isClimate === "boolean"
-        ? unit.isClimate
-        : typeof (unit as Record<string, unknown>).is_climate === "boolean"
-          ? (unit as Record<string, boolean>).is_climate
-          : undefined;
+  return data
+    .map((raw) => {
+      const unit = raw as WssLocationUnit;
+      const rate = unit?.monthly;
+      const unitId = unit?.unitId ? String(unit.unitId) : undefined;
+      const rentableObjectId = unit?.rentableObjectId
+        ? String(unit.rentableObjectId)
+        : undefined;
+      const id = unitId || rentableObjectId;
+      const size =
+        unit?.unitSize ||
+        deriveSizeFromDimensions(unit?.length, unit?.width) ||
+        undefined;
+      const imageUrl =
+        unit?.unitTypeImage?.mainImage ||
+        unit?.unitTypeImage?.thumbImage ||
+        undefined;
+      const access =
+        unit?.unitFeature?.access ||
+        unit?.accessType ||
+        (unit as Record<string, unknown>).access ||
+        undefined;
+      const isClimate =
+        typeof unit?.isClimate === "boolean"
+          ? unit.isClimate
+          : typeof (unit as Record<string, unknown>).is_climate === "boolean"
+            ? (unit as Record<string, boolean>).is_climate
+            : undefined;
 
-    return {
-      id: String(id),
-      size,
-      rate: typeof rate === "number" ? rate : undefined,
-      available: (unit?.vacantUnits ?? 0) > 0,
-      availableCount: unit?.vacantUnits,
-      description: unit?.bonusComments,
-      type: unit?.unitFeature?.product,
-      access,
-      isInside: unit?.isInside,
-      isClimate,
-      climate: unit?.unitFeature?.climate ?? isClimate,
-      doors: unit?.unitFeature?.doors,
-      floor: unit?.unitFeature?.floor,
-      elevation: unit?.unitFeature?.elevation,
-      sizeDescriptions: unit?.sizeDescriptionsField || [],
-      imageUrl,
-      orderGrouping: unit?.orderGrouping,
-    };
-  });
+      if (!id) return null;
+
+      return {
+        id: String(id),
+        unitId,
+        rentableObjectId,
+        size,
+        rate: typeof rate === "number" ? rate : undefined,
+        available: (unit?.vacantUnits ?? 0) > 0,
+        availableCount: unit?.vacantUnits,
+        description: unit?.bonusComments,
+        type: unit?.unitFeature?.product,
+        access,
+        isInside: unit?.isInside,
+        isClimate,
+        climate: unit?.unitFeature?.climate ?? isClimate,
+        doors: unit?.unitFeature?.doors,
+        floor: unit?.unitFeature?.floor,
+        elevation: unit?.unitFeature?.elevation,
+        sizeDescriptions: unit?.sizeDescriptionsField || [],
+        imageUrl,
+        orderGrouping: unit?.orderGrouping,
+      };
+    })
+    .filter((unit): unit is WssUnit => Boolean(unit));
 }
 
 function mergeUnits(moveIn: WssUnit[], location: WssUnit[], fallbackImages: string[]) {
@@ -306,6 +463,8 @@ function mergeUnits(moveIn: WssUnit[], location: WssUnit[], fallbackImages: stri
       byId.set(detail.id, {
         ...detail,
         ...existing, // keep availability/rate from move-in if present
+        unitId: existing.unitId || detail.unitId,
+        rentableObjectId: existing.rentableObjectId || detail.rentableObjectId,
         rate: existing.rate ?? detail.rate,
         available: existing.available ?? detail.available,
         availableCount: existing.availableCount ?? detail.availableCount,

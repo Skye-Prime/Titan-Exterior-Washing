@@ -14,11 +14,13 @@ import rvFirstLot from "@/assets/RV Storage - First lot.jpg";
 import rvMiddleLot from "@/assets/RV Storage -  middle lot.jpg";
 import rvSideView from "@/assets/RV Storage - side view.jpg";
 import middleLot from "@/assets/middle.jpg";
-import roadSign from "@/assets/Road Sign.jpg";
 
 type Props = {
   units: WssUnit[];
 };
+
+const moveInBaseUrl = process.env.NEXT_PUBLIC_WSS_MOVE_IN_URL;
+const moveInTemplate = process.env.NEXT_PUBLIC_WSS_MOVE_IN_URL_TEMPLATE;
 
 type CategoryId = "indoor" | "drive-up" | "rv";
 type TypeFilter = "all" | CategoryId;
@@ -191,6 +193,34 @@ export default function UnitsGrid({ units }: Props) {
   );
 }
 
+function buildMoveInUrl(unit: EnrichedUnit) {
+  const unitParam = unit.unitId || unit.rentableObjectId || unit.id;
+  const rentableParam = unit.rentableObjectId;
+  const query = new URLSearchParams();
+  if (unitParam) query.set("unitID", unitParam);
+  if (rentableParam) query.set("rentableObjectId", rentableParam);
+  query.set("mode", "move-in");
+
+  if (moveInTemplate) {
+    return moveInTemplate.replace("{unitId}", encodeURIComponent(unitParam || unit.id));
+  }
+
+  if (moveInBaseUrl) {
+    const trimmed = moveInBaseUrl.endsWith("/")
+      ? moveInBaseUrl.slice(0, -1)
+      : moveInBaseUrl;
+    const separator = trimmed.includes("?") ? "&" : "?";
+    return `${trimmed}${separator}${query.toString()}`;
+  }
+
+  // Fallback to on-site reservation form.
+  return `/rent/${encodeURIComponent(unit.id)}?${query.toString()}`;
+}
+
+function isExternalMoveInLink() {
+  return Boolean(moveInTemplate || moveInBaseUrl);
+}
+
 function UnitCard({ unit }: { unit: EnrichedUnit }) {
   const price =
     typeof unit.rate === "number" && !Number.isNaN(unit.rate)
@@ -219,7 +249,8 @@ function UnitCard({ unit }: { unit: EnrichedUnit }) {
       return next;
     });
   };
-  const paymentPortalUrl = process.env.NEXT_PUBLIC_WSS_PAYMENT_PORTAL_URL;
+  const moveInUrl = buildMoveInUrl(unit);
+  const useExternalTarget = isExternalMoveInLink();
   return (
     <Card className="h-full flex flex-col justify-between">
       <CardHeader className="space-y-2 pb-2">
@@ -303,15 +334,19 @@ function UnitCard({ unit }: { unit: EnrichedUnit }) {
           </div>
           <div className="flex flex-col gap-2 pt-1">
             <Link
-              href={paymentPortalUrl || "/pay"}
+              href={moveInUrl}
               className={buttonVariants({ className: "w-full" })}
-              target={paymentPortalUrl ? "_blank" : undefined}
-              rel={paymentPortalUrl ? "noreferrer" : undefined}
+              target={useExternalTarget ? "_blank" : undefined}
+              rel={useExternalTarget ? "noreferrer" : undefined}
             >
               Rent Now
             </Link>
             <Link
-              href={`/rent/${encodeURIComponent(unit.id)}`}
+              href={`/rent/${encodeURIComponent(unit.id)}?${new URLSearchParams({
+                mode: "reserve",
+                unitID: unit.unitId || unit.id,
+                rentableObjectId: unit.rentableObjectId || "",
+              }).toString()}`}
               className={buttonVariants({ variant: "outline", className: "w-full" })}
             >
               Reserve Unit

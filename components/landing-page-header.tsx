@@ -5,7 +5,6 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import * as React from "react";
-import { ColorModeSwitcher } from "./color-mode-switcher";
 import { Logo } from "./logo";
 import { Button, buttonVariants } from "./ui/button";
 
@@ -184,7 +183,6 @@ export function LandingPageHeader(props: NavProps) {
         </div>
 
         <div className="flex gap-4 items-center">
-          <ColorModeSwitcher />
           <Link
             href="/pay"
             className={cn(

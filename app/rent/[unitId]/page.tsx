@@ -21,12 +21,14 @@ export const metadata: Metadata = {
 
 type RentPageParams = {
   params: Promise<{ unitId: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function RentPage({ params }: RentPageParams) {
+export default async function RentPage({ params, searchParams }: RentPageParams) {
   const resolvedParams = await params;
   const decodedUnitId = decodeURIComponent(resolvedParams.unitId);
-  const { unit, error } = await loadUnit(decodedUnitId);
+  const resolvedSearch = searchParams ? await searchParams : {};
+  const { unit, error } = await loadUnit(decodedUnitId, resolvedSearch);
 
   return (
     <div className="container max-w-4xl py-12 md:py-16 space-y-8">
@@ -47,7 +49,7 @@ export default async function RentPage({ params }: RentPageParams) {
             <CardTitle>Renter details</CardTitle>
           </CardHeader>
           <CardContent>
-            <RentForm unitId={decodedUnitId} />
+            <RentForm unitId={decodedUnitId} unit={unit} />
           </CardContent>
         </Card>
 
@@ -103,7 +105,10 @@ export default async function RentPage({ params }: RentPageParams) {
   );
 }
 
-async function loadUnit(unitId: string): Promise<{ unit?: WssUnit; error?: string }> {
+async function loadUnit(
+  unitId: string,
+  searchParams?: Record<string, string | string[] | undefined>
+): Promise<{ unit?: WssUnit; error?: string }> {
   try {
     const locationId = process.env.WSS_ENTITY_ID;
     if (!locationId) {
@@ -111,7 +116,15 @@ async function loadUnit(unitId: string): Promise<{ unit?: WssUnit; error?: strin
     }
 
     const units = await getAvailableUnits({ locationId });
-    const unit = units.find((item) => item.id === unitId);
+    const unitIDParam = typeof searchParams?.unitID === "string" ? searchParams?.unitID : undefined;
+    const rentableParam =
+      typeof searchParams?.rentableObjectId === "string" ? searchParams.rentableObjectId : undefined;
+
+    const unit =
+      units.find((item) => item.id === unitId) ||
+      units.find((item) => item.unitId === unitId) ||
+      (unitIDParam ? units.find((item) => item.unitId === unitIDParam) : undefined) ||
+      (rentableParam ? units.find((item) => item.rentableObjectId === rentableParam) : undefined);
     return { unit };
   } catch (err) {
     return { error: "We could not load this unit right now." };

@@ -61,17 +61,17 @@ export function Hero(props: {
         </div>
       ) : null}
       <div className="relative container flex flex-col justify-center gap-10 py-32 md:py-40 lg:py-48 min-h-[85vh] lg:min-h-[92vh]">
-        <div className="max-w-3xl space-y-6 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-900 ring-1 ring-black/5 backdrop-blur drop-shadow-[0_4px_14px_rgba(255,255,255,0.65)]">
-            <span className="h-px w-8 bg-slate-900/70" />
-            <Link href={props.capsuleLink} className="hover:text-slate-900">
+        <div className="max-w-3xl space-y-6 text-center lg:text-left rounded-2xl bg-black/28 backdrop-blur-sm px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white ring-1 ring-white/25 backdrop-blur drop-shadow-[0_4px_12px_rgba(0,0,0,0.55)]">
+            <span className="h-px w-8 bg-white/70" />
+            <Link href={props.capsuleLink} className="hover:text-white">
               {props.capsuleText}
             </Link>
           </div>
-          <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-slate-900 drop-shadow-[0_6px_18px_rgba(255,255,255,0.55)]">
+          <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.75)]">
             {props.title}
           </h1>
-          <p className="max-w-[42rem] leading-normal text-slate-900 sm:text-xl sm:leading-8 drop-shadow-[0_5px_16px_rgba(255,255,255,0.5)]">
+          <p className="max-w-[42rem] leading-normal text-white sm:text-xl sm:leading-8 drop-shadow-[0_7px_22px_rgba(0,0,0,0.78)]">
             {props.subtitle}
           </p>
           <div className="flex gap-4 flex-wrap justify-center lg:justify-start">
