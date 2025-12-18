@@ -58,21 +58,20 @@ export function Hero(props: {
               priority={idx === 0}
             />
           ))}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/50 to-black/20" />
         </div>
       ) : null}
       <div className="relative container flex flex-col justify-center gap-10 py-32 md:py-40 lg:py-48 min-h-[85vh] lg:min-h-[92vh]">
         <div className="max-w-3xl space-y-6 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/90 ring-1 ring-white/20 backdrop-blur">
-            <span className="h-px w-8 bg-white/60" />
-            <Link href={props.capsuleLink} className="hover:text-white">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-900 ring-1 ring-black/5 backdrop-blur drop-shadow-[0_4px_14px_rgba(255,255,255,0.65)]">
+            <span className="h-px w-8 bg-slate-900/70" />
+            <Link href={props.capsuleLink} className="hover:text-slate-900">
               {props.capsuleText}
             </Link>
           </div>
-          <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-white">
+          <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-slate-900 drop-shadow-[0_6px_18px_rgba(255,255,255,0.55)]">
             {props.title}
           </h1>
-          <p className="max-w-[42rem] leading-normal text-white/80 sm:text-xl sm:leading-8">
+          <p className="max-w-[42rem] leading-normal text-slate-900 sm:text-xl sm:leading-8 drop-shadow-[0_5px_16px_rgba(255,255,255,0.5)]">
             {props.subtitle}
           </p>
           <div className="flex gap-4 flex-wrap justify-center lg:justify-start">
