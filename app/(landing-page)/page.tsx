@@ -1,18 +1,24 @@
 import { Hero } from "@/components/hero";
 import { MapRevealSection } from "@/components/map-reveal";
+import { PromoBanner } from "@/components/promo-banner";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Camera, Clock, LockKeyhole, MapPin, PhoneCall, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import Script from "next/script";
+import officeHero from "@/assets/Office.jpg";
 import officeImage from "@/assets/office-image.jpg";
-import middlePhoto from "@/assets/middle.jpg";
 import rvLotFirst from "@/assets/RV Storage - First lot.jpg";
 import reviewsBackground from "@/assets/background image 1.jpg";
+import miniUnits from "@/assets/Mini Units.jpg";
 
 const PHONE_DISPLAY = "+1 (931) 209-4395";
 const PHONE_LINK = "tel:+19312094395";
+const PROMO_ACTIVE = true;
+const RENT_URL = "/units";
+const MOBILE_BREAKPOINT = 768;
+const CITY_NAME = "Cookeville";
 const PHONE_NUMBER_SCHEMA = "+1-931-209-4395";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.360storagesolutions.com";
@@ -88,29 +94,45 @@ const serviceHighlights = [
 
 const faqs = [
   {
-    question: "Do you have climate-controlled storage units in Cookeville?",
+    question:
+      "Do you offer climate-controlled storage units in Cookeville and the Upper Cumberland area?",
     answer:
-      "Yes. Our indoor climate-controlled storage units keep furniture, electronics, and files stable year-round at our Cookeville, TN facility.",
+      "Yes. We offer indoor, climate-controlled storage units designed to protect furniture, electronics, documents, and valuables from heat, humidity, and seasonal temperature changes common in Middle Tennessee.",
   },
   {
-    question: "What are your access hours and office hours?",
+    question: "What are the access hours for your self storage facility near Cookeville?",
     answer:
-      "Storage access is available 24/7. Our office is open Monday–Friday, 10am–5pm or by appointment for in-person assistance.",
+      "Storage access is available 24/7 for tenants, so you can reach your unit on your schedule. Office hours are Monday through Friday, 10am-5pm, with appointments available for in-person assistance.",
   },
   {
-    question: "Can I reserve or move into a storage unit online?",
+    question: "Can I rent or reserve a storage unit online in Cookeville?",
     answer:
-      "Absolutely. Check live availability, reserve a unit, or start a move-in online through our WebSelfStorage-powered checkout.",
+      "Yes. You can check availability, reserve a unit, or complete your move-in online at any time. Our secure checkout lets you rent without visiting the office in person.",
   },
   {
-    question: "How secure is 360 Storage Solutions?",
+    question: "Where are your storage units located in the Cookeville area?",
     answer:
-      "We use gated access, unique tenant codes, and 24/7 video surveillance to help keep your items secure.",
+      "Our facility is located on West Broad Street in Cookeville, just minutes from I-40, Tennessee Tech University, and surrounding communities in the Upper Cumberland region.",
   },
   {
-    question: "Where is 360 Storage Solutions located?",
+    question: "Do you offer storage options for Tennessee Tech students?",
     answer:
-      "You can find us at 2237 W Broad St, Cookeville, TN 38501—easy to reach from I-40 and the Tennessee Tech campus.",
+      "Yes. Our storage units are popular with students who need short- or long-term storage during summer break, moves, or off-campus transitions. We offer easy online reservations and flexible access.",
+  },
+  {
+    question: "Do you have RV, boat, or vehicle storage near Cookeville?",
+    answer:
+      "Yes. We offer outdoor parking and larger storage options suitable for RVs, boats, trailers, and extra vehicles, with convenient access and secure gated entry.",
+  },
+  {
+    question: "How secure are self storage facilities in the Cookeville area?",
+    answer:
+      "Our facility uses gated access, individual entry codes, and 24/7 video monitoring to help keep your belongings secure.",
+  },
+  {
+    question: "How do I choose the right storage unit size?",
+    answer:
+      "If you are unsure which size you need, our size guide compares units to real-world spaces like apartments, garages, and bedrooms to help you choose confidently.",
   },
 ];
 
@@ -248,6 +270,14 @@ export default function IndexPage() {
           __html: JSON.stringify(faqJsonLd),
         }}
       />
+      <PromoBanner
+        promoActive={PROMO_ACTIVE}
+        city={CITY_NAME}
+        phoneDisplay={PHONE_DISPLAY}
+        phoneLink={PHONE_LINK}
+        rentUrl={RENT_URL}
+        mobileBreakpoint={MOBILE_BREAKPOINT}
+      />
       <Hero
         id="hero"
         capsuleText="Cookeville, TN Self Storage"
@@ -259,7 +289,8 @@ export default function IndexPage() {
         tertiaryCtaText="Pay online"
         tertiaryCtaLink="/pay"
         backgroundImages={[
-          { src: middlePhoto, alt: "Climate-controlled buildings and drive paths" },
+          { src: officeHero, alt: "Office exterior at 360 Storage Solutions" },
+          { src: miniUnits, alt: "Mini storage units" },
           { src: rvLotFirst, alt: "Drive-up storage lot" },
         ]}
       />
@@ -460,9 +491,11 @@ export default function IndexPage() {
                   FAQs
                 </p>
               </div>
-              <h3 className="text-3xl font-semibold">Storage questions, answered</h3>
+              <h3 className="text-3xl font-semibold">
+                Storage Questions, Answered for the Cookeville Area
+              </h3>
               <p className="text-muted-foreground max-w-3xl">
-                Quick answers to the most common questions about our Cookeville self storage facility, from climate control to access hours.
+                Quick answers to common questions about self storage in Cookeville and the surrounding Upper Cumberland area.
               </p>
             </div>
             <div className="grid gap-4 md:grid-cols-2">

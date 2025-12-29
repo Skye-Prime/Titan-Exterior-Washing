@@ -10,6 +10,7 @@ export default function Layout(props: { children: React.ReactNode }) {
           { title: "Why 360", href: "/#why-360" },
           { title: "Storage", href: "/#services" },
           { title: "Units", href: "/units" },
+          { title: "Size guide", href: "/size-guide" },
           { title: "Reviews", href: "/#reviews" },
           { title: "FAQ", href: "/#faq" },
           { title: "Contact", href: "/#contact" },

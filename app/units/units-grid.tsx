@@ -14,6 +14,8 @@ import rvFirstLot from "@/assets/RV Storage - First lot.jpg";
 import rvMiddleLot from "@/assets/RV Storage -  middle lot.jpg";
 import rvSideView from "@/assets/RV Storage - side view.jpg";
 import middleLot from "@/assets/middle.jpg";
+import climateControl from "@/assets/climate control.jpg";
+import miniUnits from "@/assets/Mini Units.jpg";
 
 type Props = {
   units: WssUnit[];
@@ -21,6 +23,8 @@ type Props = {
 
 const moveInBaseUrl = process.env.NEXT_PUBLIC_WSS_MOVE_IN_URL;
 const moveInTemplate = process.env.NEXT_PUBLIC_WSS_MOVE_IN_URL_TEMPLATE;
+const affiliatePortalUrl =
+  "https://www.uhaul.com/Locations/Self-Storage-near-Cookeville-TN-38501/1032354/";
 
 type CategoryId = "indoor" | "drive-up" | "rv";
 type TypeFilter = "all" | CategoryId;
@@ -80,16 +84,30 @@ function getUnitImages(unit: EnrichedUnit) {
     return [rvFirstLot.src, rvMiddleLot.src, rvSideView.src];
   }
 
+  if (unit.category === "drive-up") {
+    return [miniUnits.src, unit10x20.src, unit10x20Inside.src];
+  }
+
   const is10x20 =
     normalizedSize.includes("10x20") || normalizedSize.includes("20x10");
   const is10x9 =
     normalizedSize.includes("10x9") || normalizedSize.includes("9x10");
 
-  const outside =
-    is10x20 ? unit10x20.src : is10x9 ? unit10x9.src : middleLot.src;
+  const outside = unit.isIndoor
+    ? climateControl.src
+    : is10x20
+      ? unit10x20.src
+      : is10x9
+        ? unit10x9.src
+        : middleLot.src;
 
-  const inside =
-    is10x20 ? unit10x20Inside.src : is10x9 ? unit10x9Inside.src : unit10x9Inside.src;
+  const inside = unit.isIndoor
+    ? unit10x9.src
+    : is10x20
+      ? unit10x20Inside.src
+      : is10x9
+        ? unit10x9Inside.src
+        : unit10x9Inside.src;
 
   return [outside, inside].filter(Boolean) as string[];
 }
@@ -108,8 +126,39 @@ export default function UnitsGrid({ units }: Props) {
   const availabilityFilter: "available" | "all" = "available";
 
   const enrichedUnits = useMemo(() => units.map(enrichUnit), [units]);
+  const dedupedUnits = useMemo(() => {
+    const merged = new Map<string, EnrichedUnit>();
 
-  const filtered = enrichedUnits.filter((unit) => {
+    for (const unit of enrichedUnits) {
+      const sizeKey = unit.displaySize || unit.size || "";
+      const accessKey = unit.accessLabel || unit.access || "";
+      const climateKey = unit.climateLabel || "";
+      const key = `${unit.category}|${sizeKey}|${accessKey}|${climateKey}|${unit.rate ?? ""}`;
+
+      const existing = merged.get(key);
+      if (!existing) {
+        merged.set(key, unit);
+        continue;
+      }
+
+      const mergedAvailableCount =
+        (existing.availableCount ?? 0) + (unit.availableCount ?? 0);
+
+      merged.set(key, {
+        ...existing,
+        available: existing.available || unit.available,
+        availableCount:
+          mergedAvailableCount > 0 ? mergedAvailableCount : existing.availableCount,
+        rate: existing.rate ?? unit.rate,
+        unitId: existing.unitId || unit.unitId,
+        rentableObjectId: existing.rentableObjectId || unit.rentableObjectId,
+      });
+    }
+
+    return Array.from(merged.values());
+  }, [enrichedUnits]);
+
+  const filtered = dedupedUnits.filter((unit) => {
     const matchesAvailability =
       availabilityFilter === "all" ? true : unit.available !== false;
 
@@ -146,15 +195,15 @@ export default function UnitsGrid({ units }: Props) {
           label="Size"
           options={[
             { value: "all", label: "All" },
-            { value: "small", label: "Small" },
-            { value: "medium", label: "Medium" },
-            { value: "large", label: "Large" },
+            { value: "small", label: "Small (25–50 sq ft)" },
+            { value: "medium", label: "Medium (75–150 sq ft)" },
+            { value: "large", label: "Large (200–300 sq ft)" },
           ]}
           value={sizeFilter}
           onChange={(val) => setSizeFilter(val as SizeFilter)}
         />
         <p className="text-sm text-muted-foreground">
-          Showing {filtered.length} of {units.length} units
+          Showing {filtered.length} of {dedupedUnits.length} units
         </p>
       </div>
 
@@ -163,7 +212,7 @@ export default function UnitsGrid({ units }: Props) {
           const categoryUnits = filtered.filter((unit) => unit.category === category.id);
 
           // Hide RV section if no RV units exist at all.
-          if (category.id === "rv" && !enrichedUnits.some((u) => u.category === "rv")) {
+          if (category.id === "rv" && !dedupedUnits.some((u) => u.category === "rv")) {
             return null;
           }
 
@@ -194,6 +243,10 @@ export default function UnitsGrid({ units }: Props) {
 }
 
 function buildMoveInUrl(unit: EnrichedUnit) {
+  if (affiliatePortalUrl) {
+    return affiliatePortalUrl;
+  }
+
   const unitParam = unit.unitId || unit.rentableObjectId || unit.id;
   const rentableParam = unit.rentableObjectId;
   const query = new URLSearchParams();
@@ -218,7 +271,7 @@ function buildMoveInUrl(unit: EnrichedUnit) {
 }
 
 function isExternalMoveInLink() {
-  return Boolean(moveInTemplate || moveInBaseUrl);
+  return Boolean(affiliatePortalUrl || moveInTemplate || moveInBaseUrl);
 }
 
 function UnitCard({ unit }: { unit: EnrichedUnit }) {
@@ -342,12 +395,10 @@ function UnitCard({ unit }: { unit: EnrichedUnit }) {
               Rent Now
             </Link>
             <Link
-              href={`/rent/${encodeURIComponent(unit.id)}?${new URLSearchParams({
-                mode: "reserve",
-                unitID: unit.unitId || unit.id,
-                rentableObjectId: unit.rentableObjectId || "",
-              }).toString()}`}
+              href={affiliatePortalUrl}
               className={buttonVariants({ variant: "outline", className: "w-full" })}
+              target="_blank"
+              rel="noreferrer"
             >
               Reserve Unit
             </Link>
@@ -483,9 +534,10 @@ function parseSqft(size?: string) {
 function deriveSizeCategory(sqft?: number, isRV?: boolean): SizeFilter | undefined {
   if (isRV) return "large";
   if (!sqft) return undefined;
-  if (sqft < 80) return "small";
-  if (sqft < 150) return "medium";
-  return "large";
+  if (sqft <= 50) return "small";
+  if (sqft >= 75 && sqft <= 150) return "medium";
+  if (sqft >= 200) return "large";
+  return undefined;
 }
 
 function formatLabel(label: string) {

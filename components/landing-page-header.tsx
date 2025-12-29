@@ -149,7 +149,8 @@ export function LandingPageHeader(props: NavProps) {
   return (
     <header
       ref={headerRef}
-      className="fixed w-full z-50 bg-slate-100/60 px-4 md:px-8 backdrop-blur"
+      className="fixed w-full z-40 bg-slate-100/60 px-4 md:px-8 backdrop-blur"
+      style={{ top: "var(--promo-banner-offset, 0px)" }}
     >
       <div
         className={cn(
