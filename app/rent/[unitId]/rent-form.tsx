@@ -200,12 +200,11 @@ export function RentForm({ unitId, unit }: Props) {
       const result = (await submitJson("/api/wss/movein/cost", payload)) as MoveInCostResponse;
 
       if (result && typeof result === "object" && "success" in result && result.success === false) {
+        const errors = (result as { errors?: unknown }).errors;
         const message =
           (result as { message?: string; error?: string }).message ||
           (result as { error?: string }).error ||
-          (Array.isArray((result as { errors?: unknown }).errors)
-            ? String((result as { errors?: unknown }).errors?.[0])
-            : undefined) ||
+          (Array.isArray(errors) ? String(errors[0]) : undefined) ||
           "Move-in cost could not be calculated.";
         throw new Error(message);
       }
@@ -219,12 +218,11 @@ export function RentForm({ unitId, unit }: Props) {
           Object.values(result.costBreakDown).some((v) => typeof v === "number"));
 
       if (!hasTotals && !hasLines) {
+        const errors = (result as { errors?: unknown }).errors;
         const errorDetail =
           (result as { message?: string }).message ||
           (result as { error?: string }).error ||
-          (Array.isArray((result as { errors?: unknown }).errors)
-            ? String((result as { errors?: unknown }).errors?.[0])
-            : undefined);
+          (Array.isArray(errors) ? String(errors[0]) : undefined);
 
         throw new Error(
           errorDetail ||

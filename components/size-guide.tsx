@@ -118,6 +118,7 @@ const CATEGORY_META: Record<
   },
   vehicle: {
     label: "Parking",
+    range: "12x20 - 23x68",
     icon: <Car className="h-6 w-6 text-slate-700" />,
   },
 };

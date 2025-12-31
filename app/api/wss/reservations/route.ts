@@ -18,11 +18,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    const unitId = body.unitId || (body as { unitID?: string }).unitID || body.rentableObjectId;
+    const unitId =
+      body.unitId ||
+      (body as { unitID?: string }).unitID ||
+      body.rentableObjectId;
     const moveInDate = body.moveInDate || body.expectedMoveInDate;
 
+    if (!unitId) {
+      return NextResponse.json({ error: "unitId is required" }, { status: 400 });
+    }
+
+    if (!moveInDate) {
+      return NextResponse.json(
+        { error: "moveInDate is required" },
+        { status: 400 }
+      );
+    }
+
     // WSS expects a rentableObjectId; map from our unitId for safety.
-    const wssPayload = {
+    const wssPayload: ReservationPayload = {
       ...body,
       unitId,
       unitID: unitId,

@@ -63,6 +63,7 @@ type WssLocationUnit = {
     mainImage?: string;
     thumbImage?: string;
   };
+  orderGrouping?: string;
 };
 
 type WssMoveInResponse = {
@@ -81,6 +82,8 @@ type WssMoveInResponse = {
     units?: { unitId?: string; unitNumber?: string }[];
   }[];
 };
+
+type WssMoveInUnit = NonNullable<WssMoveInResponse["availableUnits"]>[number];
 
 type WssImagesResponse = {
   success?: boolean;
@@ -176,7 +179,7 @@ async function request<T>(
   path: string,
   method: FetchMethod,
   body?: unknown,
-  searchParams?: Record<string, string>
+  searchParams?: Record<string, string | undefined>
 ): Promise<T> {
   const { baseURL, apiKey } = getClientConfig();
   const normalizedBase = `${baseURL.replace(/\/$/, "")}/`;
@@ -351,101 +354,109 @@ function normalizeUnitAndDate(
 function normalizeMoveInUnits(data: unknown[]): WssUnit[] {
   if (!Array.isArray(data)) return [];
 
-  return data
-    .map((raw) => {
-      const unit = raw as WssMoveInResponse["availableUnits"][number];
-      const rate = unit?.monthly;
-      const rentableObjectId = unit?.rentableObjectId
-        ? String(unit.rentableObjectId)
-        : undefined;
-      const unitId = unit?.units?.[0]?.unitId
-        ? String(unit.units[0].unitId)
-        : rentableObjectId;
-      const id =
-        unitId ||
-        rentableObjectId ||
-        (unit?.units?.[0]?.unitNumber ? String(unit.units[0].unitNumber) : undefined);
-      const size =
-        unit?.unitSize ||
-        deriveSizeFromDimensions(unit?.length, unit?.width) ||
-        undefined;
+  const units: WssUnit[] = [];
 
-      if (!id) return null;
+  for (const raw of data) {
+    const unit = raw as WssMoveInUnit;
+    const rate = unit?.monthly;
+    const rentableObjectId = unit?.rentableObjectId
+      ? String(unit.rentableObjectId)
+      : undefined;
+    const unitId = unit?.units?.[0]?.unitId
+      ? String(unit.units[0].unitId)
+      : rentableObjectId;
+    const id =
+      unitId ||
+      rentableObjectId ||
+      (unit?.units?.[0]?.unitNumber ? String(unit.units[0].unitNumber) : undefined);
+    const size =
+      unit?.unitSize ||
+      deriveSizeFromDimensions(unit?.length, unit?.width) ||
+      undefined;
 
-      return {
-        id: String(id),
-        unitId,
-        rentableObjectId,
-        unitNumber: unit?.units?.[0]?.unitNumber,
-        size,
-        rate: typeof rate === "number" ? rate : undefined,
-        description: unit?.bonusComments,
-        available: (unit?.vacantUnits ?? 0) > 0,
-        availableCount: unit?.vacantUnits,
-        sizeDescriptions: unit?.sizeDescriptionsField || [],
-        orderGrouping: unit?.orderGrouping,
-      };
-    })
-    .filter((unit): unit is WssUnit => Boolean(unit));
+    if (!id) {
+      continue;
+    }
+
+    units.push({
+      id: String(id),
+      unitId,
+      rentableObjectId,
+      unitNumber: unit?.units?.[0]?.unitNumber,
+      size,
+      rate: typeof rate === "number" ? rate : undefined,
+      description: unit?.bonusComments,
+      available: (unit?.vacantUnits ?? 0) > 0,
+      availableCount: unit?.vacantUnits,
+      sizeDescriptions: unit?.sizeDescriptionsField || [],
+      orderGrouping: unit?.orderGrouping,
+    });
+  }
+
+  return units;
 }
 
 function normalizeLocationUnits(data: unknown[]): WssUnit[] {
   if (!Array.isArray(data)) return [];
 
-  return data
-    .map((raw) => {
-      const unit = raw as WssLocationUnit;
-      const rate = unit?.monthly;
-      const unitId = unit?.unitId ? String(unit.unitId) : undefined;
-      const rentableObjectId = unit?.rentableObjectId
-        ? String(unit.rentableObjectId)
-        : undefined;
-      const id = unitId || rentableObjectId;
-      const size =
-        unit?.unitSize ||
-        deriveSizeFromDimensions(unit?.length, unit?.width) ||
-        undefined;
-      const imageUrl =
-        unit?.unitTypeImage?.mainImage ||
-        unit?.unitTypeImage?.thumbImage ||
-        undefined;
-      const access =
-        unit?.unitFeature?.access ||
-        unit?.accessType ||
-        (unit as Record<string, unknown>).access ||
-        undefined;
-      const isClimate =
-        typeof unit?.isClimate === "boolean"
-          ? unit.isClimate
-          : typeof (unit as Record<string, unknown>).is_climate === "boolean"
-            ? (unit as Record<string, boolean>).is_climate
-            : undefined;
+  const units: WssUnit[] = [];
 
-      if (!id) return null;
+  for (const raw of data) {
+    const unit = raw as WssLocationUnit;
+    const rate = unit?.monthly;
+    const unitId = unit?.unitId ? String(unit.unitId) : undefined;
+    const rentableObjectId = unit?.rentableObjectId
+      ? String(unit.rentableObjectId)
+      : undefined;
+    const id = unitId || rentableObjectId;
+    const size =
+      unit?.unitSize ||
+      deriveSizeFromDimensions(unit?.length, unit?.width) ||
+      undefined;
+    const imageUrl =
+      unit?.unitTypeImage?.mainImage ||
+      unit?.unitTypeImage?.thumbImage ||
+      undefined;
+    const accessValue =
+      unit?.unitFeature?.access ||
+      unit?.accessType ||
+      (unit as Record<string, unknown>).access;
+    const access = typeof accessValue === "string" ? accessValue : undefined;
+    const isClimate =
+      typeof unit?.isClimate === "boolean"
+        ? unit.isClimate
+        : typeof (unit as Record<string, unknown>).is_climate === "boolean"
+          ? (unit as Record<string, boolean>).is_climate
+          : undefined;
 
-      return {
-        id: String(id),
-        unitId,
-        rentableObjectId,
-        size,
-        rate: typeof rate === "number" ? rate : undefined,
-        available: (unit?.vacantUnits ?? 0) > 0,
-        availableCount: unit?.vacantUnits,
-        description: unit?.bonusComments,
-        type: unit?.unitFeature?.product,
-        access,
-        isInside: unit?.isInside,
-        isClimate,
-        climate: unit?.unitFeature?.climate ?? isClimate,
-        doors: unit?.unitFeature?.doors,
-        floor: unit?.unitFeature?.floor,
-        elevation: unit?.unitFeature?.elevation,
-        sizeDescriptions: unit?.sizeDescriptionsField || [],
-        imageUrl,
-        orderGrouping: unit?.orderGrouping,
-      };
-    })
-    .filter((unit): unit is WssUnit => Boolean(unit));
+    if (!id) {
+      continue;
+    }
+
+    units.push({
+      id: String(id),
+      unitId,
+      rentableObjectId,
+      size,
+      rate: typeof rate === "number" ? rate : undefined,
+      available: (unit?.vacantUnits ?? 0) > 0,
+      availableCount: unit?.vacantUnits,
+      description: unit?.bonusComments,
+      type: unit?.unitFeature?.product,
+      access,
+      isInside: unit?.isInside,
+      isClimate,
+      climate: unit?.unitFeature?.climate ?? isClimate,
+      doors: unit?.unitFeature?.doors,
+      floor: unit?.unitFeature?.floor,
+      elevation: unit?.unitFeature?.elevation,
+      sizeDescriptions: unit?.sizeDescriptionsField || [],
+      imageUrl,
+      orderGrouping: unit?.orderGrouping,
+    });
+  }
+
+  return units;
 }
 
 function mergeUnits(moveIn: WssUnit[], location: WssUnit[], fallbackImages: string[]) {

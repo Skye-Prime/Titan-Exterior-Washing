@@ -123,8 +123,6 @@ function simpleHash(input: string) {
 export default function UnitsGrid({ units }: Props) {
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
   const [sizeFilter, setSizeFilter] = useState<SizeFilter>("all");
-  const availabilityFilter: "available" | "all" = "available";
-
   const enrichedUnits = useMemo(() => units.map(enrichUnit), [units]);
   const dedupedUnits = useMemo(() => {
     const merged = new Map<string, EnrichedUnit>();
@@ -159,8 +157,7 @@ export default function UnitsGrid({ units }: Props) {
   }, [enrichedUnits]);
 
   const filtered = dedupedUnits.filter((unit) => {
-    const matchesAvailability =
-      availabilityFilter === "all" ? true : unit.available !== false;
+    const matchesAvailability = unit.available !== false;
 
     const matchesType =
       typeFilter === "all"
@@ -464,7 +461,7 @@ function enrichUnit(unit: WssUnit): EnrichedUnit {
   const useCase = deriveUseCase(sqft);
   const displaySize = unit.size || deriveSizeLabel(unit.size);
 
-  let category: CategoryId = "outdoor";
+  let category: CategoryId = "drive-up";
   if (isRV) category = "rv";
   else if (isDriveUp) category = "drive-up";
   else if (isIndoor || hasInteriorWord) category = "indoor";
