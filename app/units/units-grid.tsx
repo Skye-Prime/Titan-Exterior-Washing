@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -49,8 +50,8 @@ const categories: {
   },
   {
     id: "rv",
-    title: "Large Vehicle Storage",
-    description: "Spaces sized for RVs, trailers, boats, and vehicles.",
+    title: "Parking",
+    description: "Spaces sized for RVs, trailers, boats, and vehicle storage.",
   },
 ];
 
@@ -120,7 +121,31 @@ function simpleHash(input: string) {
   return hash;
 }
 
+function normalizeSizeFilter(value?: string | null): SizeFilter | null {
+  if (!value) return null;
+  const normalized = value.toLowerCase();
+  if (normalized === "small") return "small";
+  if (normalized === "medium") return "medium";
+  if (normalized === "large") return "large";
+  return null;
+}
+
+function normalizeTypeFilter(value?: string | null, sizeValue?: string | null): TypeFilter | null {
+  const normalized = value?.toLowerCase();
+  if (normalized === "indoor") return "indoor";
+  if (normalized === "drive-up" || normalized === "driveup") return "drive-up";
+  if (normalized === "rv" || normalized === "vehicle" || normalized === "parking") {
+    return "rv";
+  }
+  const sizeNormalized = sizeValue?.toLowerCase();
+  if (sizeNormalized === "vehicle") return "rv";
+  return null;
+}
+
 export default function UnitsGrid({ units }: Props) {
+  const searchParams = useSearchParams();
+  const requestedSize = searchParams.get("size");
+  const requestedType = searchParams.get("type");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
   const [sizeFilter, setSizeFilter] = useState<SizeFilter>("all");
   const enrichedUnits = useMemo(() => units.map(enrichUnit), [units]);
@@ -156,6 +181,20 @@ export default function UnitsGrid({ units }: Props) {
     return Array.from(merged.values());
   }, [enrichedUnits]);
 
+  useEffect(() => {
+    const normalized = normalizeSizeFilter(requestedSize);
+    if (normalized) {
+      setSizeFilter(normalized);
+    }
+  }, [requestedSize]);
+
+  useEffect(() => {
+    const normalized = normalizeTypeFilter(requestedType, requestedSize);
+    if (normalized) {
+      setTypeFilter(normalized);
+    }
+  }, [requestedType, requestedSize]);
+
   const filtered = dedupedUnits.filter((unit) => {
     const matchesAvailability = unit.available !== false;
 
@@ -183,7 +222,7 @@ export default function UnitsGrid({ units }: Props) {
             { value: "all", label: "All" },
             { value: "indoor", label: "Indoor" },
             { value: "drive-up", label: "Drive-Up" },
-            { value: "rv", label: "RV / Vehicle" },
+            { value: "rv", label: "Parking" },
           ]}
           value={typeFilter}
           onChange={(val) => setTypeFilter(val as TypeFilter)}
@@ -207,9 +246,17 @@ export default function UnitsGrid({ units }: Props) {
       <div className="space-y-12">
         {categories.map((category) => {
           const categoryUnits = filtered.filter((unit) => unit.category === category.id);
+          const isTypeFiltered = typeFilter !== "all";
+          const isSizeFiltered = sizeFilter !== "all";
+          const hasAnyUnitsInCategory = dedupedUnits.some(
+            (unit) => unit.category === category.id
+          );
 
-          // Hide RV section if no RV units exist at all.
-          if (category.id === "rv" && !dedupedUnits.some((u) => u.category === "rv")) {
+          if (isTypeFiltered && category.id !== typeFilter) {
+            return null;
+          }
+
+          if (!isTypeFiltered && !isSizeFiltered && !hasAnyUnitsInCategory) {
             return null;
           }
 

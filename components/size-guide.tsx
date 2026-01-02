@@ -123,6 +123,26 @@ const CATEGORY_META: Record<
   },
 };
 
+const CATEGORY_FILTER_VALUE: Record<SizeGuideCategory, string> = {
+  small: "small",
+  medium: "medium",
+  large: "large",
+  vehicle: "rv",
+};
+
+function buildRentUrl(baseUrl: string, sizeParam?: string, typeParam?: string) {
+  const [path, queryString = ""] = baseUrl.split("?");
+  const params = new URLSearchParams(queryString);
+  if (sizeParam) {
+    params.set("size", sizeParam);
+  }
+  if (typeParam) {
+    params.set("type", typeParam);
+  }
+  const query = params.toString();
+  return query ? `${path}?${query}` : path;
+}
+
 export function SizeGuide({ rentUrl }: SizeGuideProps) {
   const [selectedCategory, setSelectedCategory] = useState<SizeGuideCategory>("small");
   const availableCategories = CATEGORY_ORDER.filter(
@@ -130,6 +150,11 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
   );
   const visibleCards = SIZE_GUIDE_CARDS.filter((card) => card.key === selectedCategory);
   const visibleUnits = CATEGORY_UNITS[selectedCategory];
+  const sizeParam =
+    selectedCategory === "vehicle" ? undefined : CATEGORY_FILTER_VALUE[selectedCategory];
+  const typeParam =
+    selectedCategory === "vehicle" ? CATEGORY_FILTER_VALUE[selectedCategory] : undefined;
+  const rentLink = buildRentUrl(rentUrl, sizeParam, typeParam);
 
   return (
     <section
@@ -218,7 +243,7 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
                       <p>there are not more units avialble in this size category currently</p>
                     )}
                   </div>
-                  <Link href={rentUrl} className={buttonVariants({ size: "sm" })}>
+                  <Link href={rentLink} className={buttonVariants({ size: "sm" })}>
                     View available units
                   </Link>
                 </div>
