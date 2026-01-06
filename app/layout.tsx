@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "360 Storage Solutions | Secure Self Storage in Cookeville, TN",
+    default: "Self Storage in Cookeville, TN | Climate-Controlled & Drive-Up Units",
     template: "%s | 360 Storage Solutions",
   },
   description:
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "360 Storage Solutions | Secure Self Storage in Cookeville, TN",
+    title: "Self Storage in Cookeville, TN | Climate-Controlled & Drive-Up Units",
     description:
       "Climate-controlled and drive-up storage units with gated access, 24/7 surveillance, and local support in Cookeville, Tennessee.",
     siteName: "360 Storage Solutions",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "360 Storage Solutions | Secure Self Storage in Cookeville, TN",
+    title: "Self Storage in Cookeville, TN | Climate-Controlled & Drive-Up Units",
     description:
       "Reserve storage units online with secure access, cameras, and local support from 360 Storage Solutions in Cookeville, TN.",
   },

@@ -155,6 +155,10 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
   const typeParam =
     selectedCategory === "vehicle" ? CATEGORY_FILTER_VALUE[selectedCategory] : undefined;
   const rentLink = buildRentUrl(rentUrl, sizeParam, typeParam);
+  const buttonLabel =
+    selectedCategory === "vehicle"
+      ? "View available parking spaces"
+      : `View available ${CATEGORY_META[selectedCategory].label.toLowerCase()} units`;
 
   return (
     <section
@@ -199,6 +203,12 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
                 </button>
               ))}
             </div>
+            <Link
+              href={rentUrl}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "mt-4 w-full")}
+            >
+              View all available units
+            </Link>
           </div>
         </aside>
 
@@ -244,7 +254,7 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
                     )}
                   </div>
                   <Link href={rentLink} className={buttonVariants({ size: "sm" })}>
-                    View available units
+                    {buttonLabel}
                   </Link>
                 </div>
               </div>
@@ -252,7 +262,6 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
           ))}
         </div>
       </div>
-
     </section>
   );
 }

@@ -1,12 +1,20 @@
+import Link from "next/link";
+
 export function Footer() {
   return (
     <footer className="border-t">
-      <div className="container flex flex-col gap-4 py-10 md:flex-row md:items-center md:justify-between">
+      <div className="container flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="text-lg font-semibold">360 Storage Solutions</p>
           <p className="text-sm text-muted-foreground">
             Local and reliable self storage serving Middle Tennessee since 2016.
           </p>
+          <Link
+            href="/storage-units-cookeville-tn"
+            className="text-sm font-semibold text-primary underline underline-offset-4"
+          >
+            Cookeville storage units
+          </Link>
         </div>
         <p className="text-sm text-muted-foreground">
           Call now for more information and to reserve your space.

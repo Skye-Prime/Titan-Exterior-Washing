@@ -1,8 +1,7 @@
 import { Hero } from "@/components/hero";
-import { MapRevealSection } from "@/components/map-reveal";
 import { PromoBanner } from "@/components/promo-banner";
+import { SizeGuide } from "@/components/size-guide";
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Camera, Clock, LockKeyhole, MapPin, PhoneCall, ShieldCheck } from "lucide-react";
 import Link from "next/link";
@@ -16,7 +15,8 @@ import miniUnits from "@/assets/Mini Units.jpg";
 const PHONE_DISPLAY = "+1 (931) 209-4395";
 const PHONE_LINK = "tel:+19312094395";
 const PROMO_ACTIVE = true;
-const RENT_URL = "/units";
+const RENT_URL = "/storage-units-cookeville-tn";
+const SIZE_GUIDE_RENT_URL = "/units";
 const MOBILE_BREAKPOINT = 768;
 const CITY_NAME = "Cookeville";
 const PHONE_NUMBER_SCHEMA = "+1-931-209-4395";
@@ -24,115 +24,46 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.360storagesolutions.com";
 const MAPS_LINK =
   "https://maps.google.com/?q=2237+W+Broad+St+Cookeville+TN+38501";
-const MAP_EMBED_SRC =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12568.560486298632!2d-85.5405!3d36.1554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8866c1ca5cfb4fcb%3A0x5d3ea35ba678bea2!2s2237%20W%20Broad%20St%2C%20Cookeville%2C%20TN%2038501!5e0!3m2!1sen!2sus!4v1700000000000&maptype=satellite";
 const REVIEW_URL =
   process.env.NEXT_PUBLIC_REVIEW_URL ||
   "https://www.google.com/maps/place/360+Storage+Solutions/@36.1776918,-85.5737668,17z/data=!4m8!3m7!1s0x8867219715cd6e71:0x7e8dbccd0b228f50!8m2!3d36.1776876!4d-85.5688959!9m1!1b1!16s%2Fg%2F11sjbptth5?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D";
 
 const features = [
   {
-    icon: <LockKeyhole className="h-10 w-10 text-primary" />,
-    title: "Gated access",
-    description:
-      "Controlled entry so only authorized tenants can access the property.",
-  },
-  {
-    icon: <Camera className="h-10 w-10 text-primary" />,
-    title: "24/7 surveillance",
-    description:
-      "Top-of-the-line security cameras keep an eye on your belongings around the clock.",
-  },
-  {
-    icon: <MapPin className="h-10 w-10 text-primary" />,
-    title: "Located in Middle Tennessee",
-    description:
-      "Serving our local community with easy access and responsive support.",
-  },
-  {
-    icon: <PhoneCall className="h-10 w-10 text-primary" />,
-    title: "Friendly, local team",
-    description:
-      "Call us anytime for quick answers about availability, unit sizes, and move-ins.",
-  },
-  {
     icon: <Clock className="h-10 w-10 text-primary" />,
-    title: "Convenient hours",
+    title: "Serving neighbors since 2016",
     description:
-      "Office: Mon–Fri 10am–5pm or by appointment. Storage access: 24/7.",
+      "Long-term, consistent ownership with a steady local reputation.",
   },
   {
     icon: <ShieldCheck className="h-10 w-10 text-primary" />,
-    title: "Unit insurance available",
+    title: "Clear policies, no surprises",
     description:
-      "Protect your belongings with simple, affordable coverage so you can rest easy.",
+      "Straightforward terms and transparent pricing you can understand.",
   },
-];
-
-const serviceHighlights = [
   {
-    title: "Climate-controlled storage units",
+    icon: <Camera className="h-10 w-10 text-primary" />,
+    title: "Clean, well-kept property",
     description:
-      "Protect furniture, business files, and electronics with interior climate control and clean corridors.",
+      "We stay on top of maintenance so the facility feels orderly and safe.",
   },
   {
-    title: "Drive-up storage units",
+    icon: <PhoneCall className="h-10 w-10 text-primary" />,
+    title: "Real people when you call",
     description:
-      "Ground-level units let you park next to the door for quick loading and unloading.",
+      "Talk to a local team member who can help you quickly.",
   },
   {
-    title: "Business & contractor storage",
+    icon: <LockKeyhole className="h-10 w-10 text-primary" />,
+    title: "Secure, orderly access",
     description:
-      "Store inventory, tools, and records securely with camera coverage and gated access.",
+      "Clear gates, bright lighting, and systems that keep things controlled.",
   },
   {
-    title: "Serving Middle Tennessee",
+    icon: <MapPin className="h-10 w-10 text-primary" />,
+    title: "Easy to find, easy to use",
     description:
-      "Convenient to Cookeville, Baxter, Sparta, Livingston, Algood, and the Tennessee Tech campus.",
-  },
-];
-
-const faqs = [
-  {
-    question:
-      "Do you offer climate-controlled storage units in Cookeville and the Upper Cumberland area?",
-    answer:
-      "Yes. We offer indoor, climate-controlled storage units designed to protect furniture, electronics, documents, and valuables from heat, humidity, and seasonal temperature changes common in Middle Tennessee.",
-  },
-  {
-    question: "What are the access hours for your self storage facility near Cookeville?",
-    answer:
-      "Storage access is available 24/7 for tenants, so you can reach your unit on your schedule. Office hours are Monday through Friday, 10am-5pm, with appointments available for in-person assistance.",
-  },
-  {
-    question: "Can I rent or reserve a storage unit online in Cookeville?",
-    answer:
-      "Yes. You can check availability, reserve a unit, or complete your move-in online at any time. Our secure checkout lets you rent without visiting the office in person.",
-  },
-  {
-    question: "Where are your storage units located in the Cookeville area?",
-    answer:
-      "Our facility is located on West Broad Street in Cookeville, just minutes from I-40, Tennessee Tech University, and surrounding communities in the Upper Cumberland region.",
-  },
-  {
-    question: "Do you offer storage options for Tennessee Tech students?",
-    answer:
-      "Yes. Our storage units are popular with students who need short- or long-term storage during summer break, moves, or off-campus transitions. We offer easy online reservations and flexible access.",
-  },
-  {
-    question: "Do you have RV, boat, or vehicle storage near Cookeville?",
-    answer:
-      "Yes. We offer outdoor parking and larger storage options suitable for RVs, boats, trailers, and extra vehicles, with convenient access and secure gated entry.",
-  },
-  {
-    question: "How secure are self storage facilities in the Cookeville area?",
-    answer:
-      "Our facility uses gated access, individual entry codes, and 24/7 video monitoring to help keep your belongings secure.",
-  },
-  {
-    question: "How do I choose the right storage unit size?",
-    answer:
-      "If you are unsure which size you need, our size guide compares units to real-world spaces like apartments, garages, and bedrooms to help you choose confidently.",
+      "Drive up, unload, and get back to your day without hassle.",
   },
 ];
 
@@ -168,6 +99,13 @@ const reviews = [
     rating: 5,
   },
 ];
+
+const reviewStats = (() => {
+  const count = reviews.length;
+  const total = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
+  const averageRating = count ? Math.round((total / count) * 10) / 10 : 0;
+  return { count, averageRating };
+})();
 
 const reviewCardOffsets = [
   "md:-rotate-1 md:-translate-y-2",
@@ -235,20 +173,22 @@ const businessJsonLd = {
       areaServed: "Middle Tennessee",
     },
   },
-  image: new URL(officeImage.src, SITE_URL).toString(),
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: reviewStats.averageRating,
+    reviewCount: reviewStats.count,
+  },
+  review: reviews.map((review) => ({
+    "@type": "Review",
+    author: review.name,
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: review.rating,
     },
+    reviewBody: review.text,
+    datePublished: review.date,
   })),
+  image: new URL(officeImage.src, SITE_URL).toString(),
 };
 
 export default function IndexPage() {
@@ -262,14 +202,6 @@ export default function IndexPage() {
           __html: JSON.stringify(businessJsonLd),
         }}
       />
-      <Script
-        id="faq-jsonld"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJsonLd),
-        }}
-      />
       <PromoBanner
         promoActive={PROMO_ACTIVE}
         city={CITY_NAME}
@@ -280,21 +212,34 @@ export default function IndexPage() {
       />
       <Hero
         id="hero"
-        capsuleText="Cookeville, TN Self Storage"
+        capsuleText="Trusted local storage"
         capsuleLink="#why-360"
-        title="360 Storage Solutions"
-        subtitle="Drive-up storage, climate-controlled units, and RV/boat parking with local service. Reserve online in minutes and move in without surprises."
+        title="Storage that doesn’t waste your time."
+        subtitle="Clean, secure units. Clear pricing. Real people when you call."
         primaryCtaText="View available units"
-        primaryCtaLink="/units"
-        tertiaryCtaText="Pay online"
-        tertiaryCtaLink="/pay"
+        primaryCtaLink="/storage-units-cookeville-tn"
+        secondaryCtaText={PHONE_DISPLAY}
+        secondaryCtaLink={PHONE_LINK}
         backgroundImages={[
           { src: officeHero, alt: "Office exterior at 360 Storage Solutions" },
-          { src: miniUnits, alt: "Mini storage units" },
-          { src: rvLotFirst, alt: "Drive-up storage lot" },
+          { src: miniUnits, alt: "Storage unit rows at the facility" },
+          { src: rvLotFirst, alt: "Outdoor parking area on-site" },
         ]}
       />
       <div className="space-y-0">
+        <section id="size-guide" className="bg-[#B5D7E9] py-12 md:py-16">
+          <div className="container max-w-6xl space-y-6">
+            <div className="space-y-2">
+              <p className="text-sm uppercase tracking-[0.3em] text-primary">Size guide</p>
+              <h2 className="text-3xl font-semibold">Find the right unit size</h2>
+              <p className="text-muted-foreground">
+                Browse sizes, compare use cases, and jump straight to availability.
+              </p>
+            </div>
+            <SizeGuide rentUrl={SIZE_GUIDE_RENT_URL} />
+          </div>
+        </section>
+
         <section id="why-360" className="bg-[#B5D7E9] scroll-mt-28">
           <div className="container max-w-6xl grid gap-8 py-12 md:grid-cols-3 md:items-start md:py-16">
             <div className="md:col-span-1 space-y-4">
@@ -305,14 +250,14 @@ export default function IndexPage() {
                 </p>
               </div>
               <h2 className="text-3xl font-semibold leading-tight">
-                Local, secure, and easy to work with.
+                Straightforward people. Straightforward storage.
               </h2>
               <p className="text-muted-foreground">
-                Trusted since 2016 by neighbors across Middle Tennessee. We keep things simple: clean units, secure access, clear pricing, and friendly humans.
+                You want a place that answers the phone, keeps the property clean, and makes the process easy. That is exactly how we run the facility.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="/units"
+                  href="/storage-units-cookeville-tn"
                   className={buttonVariants({ size: "lg" })}
                 >
                   Check availability
@@ -349,66 +294,6 @@ export default function IndexPage() {
           </div>
         </section>
 
-        <MapRevealSection />
-
-        <section
-          id="services"
-          className="bg-transparent"
-        >
-          <div className="container max-w-6xl py-12 md:py-16">
-            <div className="rounded-3xl px-6 py-10 md:px-10 md:py-12 grid gap-8 md:grid-cols-[1.05fr_0.95fr] md:items-start">
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <span className="h-px w-10 bg-primary/50" />
-                  <p className="text-sm uppercase tracking-[0.2em] text-primary">
-                    Storage in Cookeville
-                  </p>
-                </div>
-                <h2 className="text-3xl font-semibold leading-tight">
-                  Storage solutions for homes, students, and businesses across Middle Tennessee.
-                </h2>
-                <p className="text-muted-foreground">
-                  Whether you need climate-controlled storage for delicate items or a drive-up unit for business inventory,
-                  we make it easy to store close to home. We are minutes from Tennessee Tech University and convenient to
-                  Cookeville, Baxter, Sparta, Livingston, and the broader Upper Cumberland region.
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    href="/units"
-                    className={buttonVariants({ size: "lg" })}
-                  >
-                    Check availability
-                  </Link>
-                  <Link
-                    href={MAPS_LINK}
-                    className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Get directions
-                  </Link>
-                </div>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                {serviceHighlights.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="relative overflow-hidden rounded-lg border bg-background p-2 shadow-sm"
-                  >
-                    <div className="flex h-full flex-col rounded-md p-6 gap-3">
-                      <h3 className="font-semibold">{item.title}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section
           id="reviews"
           className="relative w-full py-12 md:py-16"
@@ -433,7 +318,9 @@ export default function IndexPage() {
                     ★★★★★
                   </span>
                   <h3 className="text-3xl font-semibold">What neighbors say about 360 Storage Solutions</h3>
-                  <span className="text-sm text-white/80">Real reviews from our customers</span>
+                  <span className="text-sm text-white/80">
+                    Real reviews from people who wanted it to be easy.
+                  </span>
                 </div>
                 <Link
                   href={REVIEW_URL}
@@ -452,7 +339,7 @@ export default function IndexPage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
               {reviews
                 .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
-                .slice(0, 6)
+                .slice(0, 5)
                 .map((review, idx) => (
                   <div
                     key={idx}
@@ -472,7 +359,7 @@ export default function IndexPage() {
                         </p>
                       ) : null}
                     </div>
-                    <p className="text-muted-foreground leading-relaxed line-clamp-5">
+                    <p className="text-muted-foreground leading-relaxed line-clamp-3">
                       {review.text}
                     </p>
                     <p className="text-sm font-semibold text-foreground mt-auto">{review.name}</p>
@@ -482,105 +369,52 @@ export default function IndexPage() {
           </div>
         </section>
 
-        <section id="faq" className="bg-[#B5D7E9] py-12 md:py-20 scroll-mt-28">
-          <div className="container max-w-6xl space-y-6">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="h-px w-10 bg-primary/50" />
-                <p className="text-sm uppercase tracking-[0.2em] text-primary">
-                  FAQs
+        <section id="contact" className="bg-transparent py-12 md:py-20 scroll-mt-28">
+          <div className="container max-w-5xl">
+            <div className="rounded-2xl bg-muted px-6 py-10 md:px-12 md:py-14 text-center space-y-6 shadow-sm">
+              <div className="space-y-3">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="h-px w-10 bg-primary/50" />
+                  <p className="text-sm uppercase tracking-[0.2em] text-primary">
+                    Ready?
+                  </p>
+                </div>
+                <h3 className="text-3xl font-semibold">Talk to a real person today</h3>
+                <p className="text-muted-foreground">
+                  Quick answers, clear pricing, and a team that respects your time.
                 </p>
               </div>
-              <h3 className="text-3xl font-semibold">
-                Storage Questions, Answered for the Cookeville Area
-              </h3>
-              <p className="text-muted-foreground max-w-3xl">
-                Quick answers to common questions about self storage in Cookeville and the surrounding Upper Cumberland area.
+              <div className="flex flex-wrap justify-center gap-3">
+                <Link
+                  href="/storage-units-cookeville-tn"
+                  className={buttonVariants({ size: "lg" })}
+                >
+                  View available units
+                </Link>
+                <Link
+                  href={PHONE_LINK}
+                  className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+                >
+                  Call {PHONE_DISPLAY}
+                </Link>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Need specifics?{" "}
+                <Link
+                  href="/storage-units-cookeville-tn"
+                  className="font-semibold text-primary underline underline-offset-4"
+                >
+                  Self storage units in Cookeville, TN
+                </Link>{" "}
+                or{" "}
+                <Link
+                  href="/storage-units-cookeville-tn"
+                  className="font-semibold text-primary underline underline-offset-4"
+                >
+                  Cookeville storage facility
+                </Link>
+                .
               </p>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              {faqs.map((faq, idx) => (
-                <div key={idx} className="rounded-xl border bg-card p-6 space-y-2 shadow-sm">
-                  <h4 className="text-lg font-semibold">{faq.question}</h4>
-                  <p className="text-sm text-muted-foreground">{faq.answer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="contact" className="bg-transparent py-12 md:py-20 scroll-mt-28">
-          <div className="container max-w-6xl">
-            <div className="rounded-2xl bg-muted px-6 py-10 md:px-12 md:py-14 space-y-10 shadow-sm">
-              <div className="grid gap-6 md:grid-cols-2 md:items-center">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="h-px w-10 bg-primary/50" />
-                    <p className="text-sm uppercase tracking-[0.2em] text-primary">
-                      Contact
-                    </p>
-                  </div>
-                  <h3 className="text-3xl font-semibold">Call now for more information</h3>
-                  <p className="text-muted-foreground">
-                    Talk with a local team member about unit sizing, availability, move-in timing, or how to start online.
-                    Let us know what you’re storing and we’ll recommend the best fit.
-                  </p>
-                  <div className="text-sm text-muted-foreground space-y-1">
-                    <p className="font-medium text-foreground">2237 W Broad St</p>
-                    <p className="font-medium text-foreground">Cookeville, TN 38501</p>
-                    <p className="text-foreground">United States</p>
-                    <p>Office: Mon–Fri 10am–5pm or by appointment</p>
-                    <p>Storage access: 24/7</p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    href={PHONE_LINK}
-                    className={buttonVariants({ size: "lg" })}
-                  >
-                    {PHONE_DISPLAY}
-                  </Link>
-                  <Link
-                    href="/units"
-                    className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-                  >
-                    Explore units
-                  </Link>
-                </div>
-              </div>
-              <div className="grid gap-6 md:grid-cols-[1.3fr_0.7fr]">
-                <div className="rounded-xl overflow-hidden border shadow-sm bg-background">
-                  <iframe
-                    src={MAP_EMBED_SRC}
-                    className="h-[320px] w-full"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="360 Storage Solutions location map"
-                  />
-                </div>
-                <div className="space-y-3">
-                  <h4 className="text-xl font-semibold">Find us faster</h4>
-                  <p className="text-muted-foreground">
-                    See the property from above. We’re minutes from I-40 and the Tennessee Tech campus, with easy access on West Broad Street.
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    <Link
-                      href={MAPS_LINK}
-                      className={buttonVariants({ size: "lg" })}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Open in Maps
-                    </Link>
-                    <Link
-                      href={PHONE_LINK}
-                      className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-                    >
-                      Call for directions
-                    </Link>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
