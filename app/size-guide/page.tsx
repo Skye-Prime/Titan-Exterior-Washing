@@ -38,8 +38,6 @@ export default function SizeGuidePage() {
                 If you have questions or want to tour our facility to see different
                 units, contact us today.
               </p>
-<<<<<<< ours
-=======
               <p className="text-sm text-white/80">
                 Need local details? Visit our{" "}
                 <Link href="/storage-units-cookeville-tn" className="font-semibold underline underline-offset-4">
@@ -47,7 +45,6 @@ export default function SizeGuidePage() {
                 </Link>{" "}
                 page.
               </p>
->>>>>>> theirs
               <div className="flex flex-wrap justify-center gap-3">
                 <Link href={RENT_URL} className={buttonVariants({ size: "lg" })}>
                   View available units
