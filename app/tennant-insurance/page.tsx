@@ -104,10 +104,10 @@ export default function TennantInsurancePage() {
               <form className="space-y-3 text-sm text-slate-700">
                 <div className="grid grid-cols-2 gap-3">
                   <label className="space-y-1">
-                    <span>Today's date</span>
+                    <span>Today&apos;s date</span>
                     <input
                       className="w-full rounded border border-slate-200 px-2 py-1"
-                      placeholder="Today's date"
+                      placeholder="Today&apos;s date"
                     />
                   </label>
                   <label className="space-y-1">
