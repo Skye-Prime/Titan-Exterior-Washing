@@ -10,7 +10,6 @@ export default function Layout(props: { children: React.ReactNode }) {
           { title: "Why 360", href: "/#why-360" },
           { title: "Cookeville storage", href: "/storage-units-cookeville-tn" },
           { title: "Units", href: "/units" },
-          { title: "Size guide", href: "/size-guide" },
           { title: "Tennant Insurance", href: "/tennant-insurance" },
           { title: "Reviews", href: "/#reviews" },
           { title: "Contact", href: "/#contact" },

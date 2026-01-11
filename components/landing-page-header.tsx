@@ -73,13 +73,13 @@ function DesktopItems(props: NavProps) {
   const segment = useSelectedLayoutSegment();
 
   return (
-    <nav className="hidden gap-6 md:flex">
+    <nav className="hidden items-center gap-4 md:flex">
       {props.items?.map((item, index) => (
         <Link
           key={index}
           href={item.disabled ? "#" : item.href}
           className={cn(
-            "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
+            "flex items-center whitespace-nowrap text-sm font-medium leading-none transition-colors hover:text-foreground/80",
             item.href.startsWith(`/${segment}`)
               ? "text-foreground"
               : "text-foreground/60",
