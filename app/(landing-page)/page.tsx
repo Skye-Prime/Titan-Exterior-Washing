@@ -15,6 +15,7 @@ import miniUnits from "@/assets/Mini Units.jpg";
 const PHONE_DISPLAY = "+1 (931) 209-4395";
 const PHONE_LINK = "tel:+19312094395";
 const PROMO_ACTIVE = true;
+const PAY_URL = "/pay";
 const RENT_URL = "/storage-units-cookeville-tn";
 const SIZE_GUIDE_RENT_URL = "/units";
 const MOBILE_BREAKPOINT = 768;
@@ -218,8 +219,8 @@ export default function IndexPage() {
         subtitle="Clean, secure units. Clear pricing. Real people when you call."
         primaryCtaText="View available units"
         primaryCtaLink="/storage-units-cookeville-tn"
-        secondaryCtaText={PHONE_DISPLAY}
-        secondaryCtaLink={PHONE_LINK}
+        secondaryCtaText="Pay Online"
+        secondaryCtaLink={PAY_URL}
         backgroundImages={[
           { src: officeHero, alt: "Office exterior at 360 Storage Solutions" },
           { src: miniUnits, alt: "Storage unit rows at the facility" },

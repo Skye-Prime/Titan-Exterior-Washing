@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { TenantInsuranceSignup } from "@/components/tenant-insurance-signup";
 import { cn } from "@/lib/utils";
 import brochureCover from "@/assets/SafeStor Tenant Insurance Brochure Cover Jan 17.png";
 import coveragePoster from "@/assets/can-you-afford-to-be-without-coverage.jpg";
@@ -40,11 +41,11 @@ export const metadata: Metadata = {
   description:
     "Tenant insurance details, coverage notes, and SafeStor signup guidance for 360 Storage Solutions in Cookeville, TN.",
   alternates: {
-    canonical: "/tennant-insurance",
+    canonical: "/tenant-insurance",
   },
 };
 
-export default function TennantInsurancePage() {
+export default function TenantInsurancePage() {
   return (
     <div className="bg-white text-slate-900">
       <section className="pt-28">
@@ -92,96 +93,7 @@ export default function TennantInsurancePage() {
               </div>
             </div>
 
-            <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <div className="space-y-1">
-                <h3 className="text-lg font-semibold">Tenant Insurance Signup</h3>
-                <p className="text-xs text-slate-500">Step 1 of 2</p>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
-                  <div className="h-full w-1/2 bg-emerald-600" />
-                </div>
-              </div>
-
-              <form className="space-y-3 text-sm text-slate-700">
-                <div className="grid grid-cols-2 gap-3">
-                  <label className="space-y-1">
-                    <span>Today&apos;s date</span>
-                    <input
-                      className="w-full rounded border border-slate-200 px-2 py-1"
-                      placeholder="Today&apos;s date"
-                    />
-                  </label>
-                  <label className="space-y-1">
-                    <span>Time</span>
-                    <input
-                      className="w-full rounded border border-slate-200 px-2 py-1"
-                      placeholder="--:--"
-                    />
-                  </label>
-                </div>
-
-                <label className="space-y-1">
-                  <span>Location</span>
-                  <select className="w-full rounded border border-slate-200 px-2 py-1">
-                    <option>Choose a City</option>
-                    <option>Cookeville, TN</option>
-                  </select>
-                </label>
-
-                <div className="grid grid-cols-3 gap-2">
-                  <label className="space-y-1">
-                    <span>First</span>
-                    <input className="w-full rounded border border-slate-200 px-2 py-1" />
-                  </label>
-                  <label className="space-y-1">
-                    <span>Middle</span>
-                    <input className="w-full rounded border border-slate-200 px-2 py-1" />
-                  </label>
-                  <label className="space-y-1">
-                    <span>Last</span>
-                    <input className="w-full rounded border border-slate-200 px-2 py-1" />
-                  </label>
-                </div>
-
-                <label className="space-y-1">
-                  <span>Mailing Address</span>
-                  <input
-                    className="w-full rounded border border-slate-200 px-2 py-1"
-                    placeholder="Address Line 1"
-                  />
-                </label>
-                <input
-                  className="w-full rounded border border-slate-200 px-2 py-1"
-                  placeholder="Address Line 2"
-                />
-                <div className="grid grid-cols-[2fr_1fr] gap-2">
-                  <input
-                    className="w-full rounded border border-slate-200 px-2 py-1"
-                    placeholder="City"
-                  />
-                  <select className="w-full rounded border border-slate-200 px-2 py-1">
-                    <option>State</option>
-                    <option>TN</option>
-                  </select>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <input
-                    className="w-full rounded border border-slate-200 px-2 py-1"
-                    placeholder="Zip Code"
-                  />
-                  <input
-                    className="w-full rounded border border-slate-200 px-2 py-1"
-                    placeholder="Phone"
-                  />
-                </div>
-                <input
-                  className="w-full rounded border border-slate-200 px-2 py-1"
-                  placeholder="Email"
-                />
-                <button className="rounded bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-700">
-                  Next
-                </button>
-              </form>
-            </div>
+            <TenantInsuranceSignup />
           </div>
         </div>
       </section>
