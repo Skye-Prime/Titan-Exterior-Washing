@@ -4,10 +4,12 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { TenantInsuranceSignup } from "@/components/tenant-insurance-signup";
 import { cn } from "@/lib/utils";
+import { CertificateModal } from "@/components/certificate-modal";
 import brochureCover from "@/assets/SafeStor Tenant Insurance Brochure Cover Jan 17.png";
 import coveragePoster from "@/assets/can-you-afford-to-be-without-coverage.jpg";
 import coverageChart from "@/assets/Covererage chart.png";
-import certificateImage from "@/assets/Storage Insurance Certificate.png";
+import certificatePageOne from "@/assets/TN certificate page 1.png";
+import certificatePageTwo from "@/assets/TN certificate page 2.png";
 
 const PHONE_DISPLAY = "+1 (931) 209-4395";
 const PHONE_LINK = "tel:+19312094395";
@@ -169,10 +171,17 @@ export default function TenantInsurancePage() {
         <div className="container max-w-5xl">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="flex justify-center">
-              <Image
-                src={certificateImage}
-                alt="Flood coverage certificate"
-                className="h-auto w-full max-w-[300px] shadow-md"
+              <CertificateModal
+                images={[
+                  {
+                    src: certificatePageOne,
+                    alt: "Tennessee insurance certificate page 1",
+                  },
+                  {
+                    src: certificatePageTwo,
+                    alt: "Tennessee insurance certificate page 2",
+                  },
+                ]}
               />
             </div>
             <div className="space-y-4 text-sm text-slate-700">
