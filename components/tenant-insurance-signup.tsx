@@ -32,6 +32,10 @@ type FormState = {
   zip: string;
   phone: string;
   email: string;
+  insuranceRequirement: string;
+  coverageLevel: string;
+  signatureSafestor: string;
+  signatureLiability: string;
 };
 
 const INITIAL_FORM: FormState = {
@@ -48,13 +52,26 @@ const INITIAL_FORM: FormState = {
   zip: "",
   phone: "",
   email: "",
+  insuranceRequirement: "",
+  coverageLevel: "",
+  signatureSafestor: "",
+  signatureLiability: "",
 };
 
 export function TenantInsuranceSignup() {
   const [step, setStep] = React.useState<1 | 2>(1);
   const [form, setForm] = React.useState<FormState>(INITIAL_FORM);
+  const [status, setStatus] = React.useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const isStep1Complete = REQUIRED_FIELDS.every((key) => form[key].trim() !== "");
+  const isStep2Complete =
+    form.insuranceRequirement.trim() !== "" &&
+    form.coverageLevel.trim() !== "" &&
+    form.signatureSafestor.trim() !== "" &&
+    form.signatureLiability.trim() !== "";
 
   const handleChange =
     (key: keyof FormState) =>
@@ -62,6 +79,56 @@ export function TenantInsuranceSignup() {
       const { value } = event.target;
       setForm((prev) => ({ ...prev, [key]: value }));
     };
+
+  const handleSubmit = async () => {
+    if (!isStep2Complete || status === "submitting") return;
+    setStatus("submitting");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/tenant-insurance-signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          step1: {
+            date: form.date,
+            time: form.time,
+            location: form.location,
+            first: form.first,
+            middle: form.middle,
+            last: form.last,
+            address1: form.address1,
+            address2: form.address2,
+            city: form.city,
+            state: form.state,
+            zip: form.zip,
+            phone: form.phone,
+            email: form.email,
+          },
+          step2: {
+            insuranceRequirement: form.insuranceRequirement,
+            coverageLevel: form.coverageLevel,
+            signatureSafestor: form.signatureSafestor,
+            signatureLiability: form.signatureLiability,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const data = (await response.json().catch(() => null)) as
+          | { error?: string }
+          | null;
+        throw new Error(data?.error || "Unable to submit the form.");
+      }
+
+      setStatus("success");
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Unable to submit the form."
+      );
+    }
+  };
 
   return (
     <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -248,13 +315,28 @@ export function TenantInsuranceSignup() {
                 Insurance Requirement <span className="text-rose-500">*</span>
               </p>
               <label className="flex items-start gap-2">
-                <input type="radio" name="insurance-requirement" />
+                <input
+                  type="radio"
+                  name="insurance-requirement"
+                  value="Purchase SafeStor"
+                  checked={form.insuranceRequirement === "Purchase SafeStor"}
+                  onChange={handleChange("insuranceRequirement")}
+                />
                 <span>
                   Option 1 - PURCHASE SAFESTOR (The recommended choice)
                 </span>
               </label>
               <label className="flex items-start gap-2">
-                <input type="radio" name="insurance-requirement" />
+                <input
+                  type="radio"
+                  name="insurance-requirement"
+                  value="Homeowner/Renter policy coverage"
+                  checked={
+                    form.insuranceRequirement ===
+                    "Homeowner/Renter policy coverage"
+                  }
+                  onChange={handleChange("insuranceRequirement")}
+                />
                 <span>
                   Option 2 - HOMEOWNER&apos;S / RENTER&apos;S POLICY COVERAGE
                 </span>
@@ -266,19 +348,45 @@ export function TenantInsuranceSignup() {
                 Choose One <span className="text-rose-500">*</span>
               </p>
               <label className="flex items-start gap-2">
-                <input type="radio" name="coverage-level" />
+                <input
+                  type="radio"
+                  name="coverage-level"
+                  value="$5,000 of coverage is $11.95"
+                  checked={form.coverageLevel === "$5,000 of coverage is $11.95"}
+                  onChange={handleChange("coverageLevel")}
+                />
                 <span>$5,000 of coverage is $11.95</span>
               </label>
               <label className="flex items-start gap-2">
-                <input type="radio" name="coverage-level" />
+                <input
+                  type="radio"
+                  name="coverage-level"
+                  value="$10,000 of coverage is $21.95"
+                  checked={form.coverageLevel === "$10,000 of coverage is $21.95"}
+                  onChange={handleChange("coverageLevel")}
+                />
                 <span>$10,000 of coverage is $21.95</span>
               </label>
               <label className="flex items-start gap-2">
-                <input type="radio" name="coverage-level" />
+                <input
+                  type="radio"
+                  name="coverage-level"
+                  value="$15,000 of coverage is $40.95"
+                  checked={form.coverageLevel === "$15,000 of coverage is $40.95"}
+                  onChange={handleChange("coverageLevel")}
+                />
                 <span>$15,000 of coverage is $40.95</span>
               </label>
               <label className="flex items-start gap-2">
-                <input type="radio" name="coverage-level" />
+                <input
+                  type="radio"
+                  name="coverage-level"
+                  value="Parking Space Vehicle - No Coverage"
+                  checked={
+                    form.coverageLevel === "Parking Space Vehicle - No Coverage"
+                  }
+                  onChange={handleChange("coverageLevel")}
+                />
                 <span>Parking Space Vehicle - No Coverage</span>
               </label>
             </div>
@@ -292,7 +400,14 @@ export function TenantInsuranceSignup() {
                 occurrences, including mold. SIGN BELOW:
                 <span className="text-rose-500"> *</span>
               </p>
-              <div className="relative h-28 w-full rounded border border-slate-300 bg-white">
+              <div className="relative">
+                <input
+                  className="h-28 w-full rounded border border-slate-300 bg-white px-3 py-2"
+                  placeholder="Type full name to sign"
+                  value={form.signatureSafestor}
+                  onChange={handleChange("signatureSafestor")}
+                  required
+                />
                 <span className="absolute right-2 top-2 text-xs text-slate-400">
                   x
                 </span>
@@ -321,7 +436,14 @@ export function TenantInsuranceSignup() {
                 DAMAGES.
                 <span className="text-rose-500"> *</span>
               </p>
-              <div className="relative h-28 w-full rounded border border-slate-300 bg-white">
+              <div className="relative">
+                <input
+                  className="h-28 w-full rounded border border-slate-300 bg-white px-3 py-2"
+                  placeholder="Type full name to sign"
+                  value={form.signatureLiability}
+                  onChange={handleChange("signatureLiability")}
+                  required
+                />
                 <span className="absolute right-2 top-2 text-xs text-slate-400">
                   x
                 </span>
@@ -329,9 +451,25 @@ export function TenantInsuranceSignup() {
               <p className="text-xs text-slate-500">Sign Above</p>
             </div>
 
-            <button className="w-fit rounded bg-slate-200 px-4 py-2 text-xs font-semibold text-slate-700">
-              Finish
-            </button>
+            <div className="space-y-2">
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={!isStep2Complete || status === "submitting"}
+                className="w-fit rounded bg-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {status === "submitting" ? "Submitting..." : "Finish"}
+              </button>
+              {status === "success" ? (
+                <p className="text-xs text-emerald-600">
+                  Submission received. We&apos;ll follow up if we need anything
+                  else.
+                </p>
+              ) : null}
+              {status === "error" ? (
+                <p className="text-xs text-rose-600">{errorMessage}</p>
+              ) : null}
+            </div>
           </div>
         </>
       )}

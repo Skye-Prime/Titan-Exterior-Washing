@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils";
 import { UserButton } from "@stackframe/stack";
 import { LucideIcon, Menu } from "lucide-react";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -57,7 +56,7 @@ function NavItem(props: {
       className={cn(
         buttonVariants({ variant: "ghost", size: "sm" }),
         selected && "bg-muted",
-        "flex-grow justify-start text-md text-zinc-800 dark:text-zinc-300 px-2"
+        "flex-grow justify-start text-md text-zinc-800 px-2"
       )}
       onClick={props.onClick}
       prefetch={true}
@@ -149,15 +148,13 @@ export default function SidebarLayout(props: {
   basePath: string;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { resolvedTheme, setTheme } = useTheme();
-
   return (
     <div className="w-full flex">
       <div className="flex-col border-r w-[240px] h-screen sticky top-0 hidden md:flex">
         <SidebarContent items={props.items} sidebarTop={props.sidebarTop} basePath={props.basePath} />
       </div>
       <div className="flex flex-col flex-grow w-0">
-        <div className="h-14 border-b flex items-center justify-between sticky top-0 bg-white dark:bg-black z-10 px-4 md:px-6">
+        <div className="h-14 border-b flex items-center justify-between sticky top-0 bg-white z-10 px-4 md:px-6">
           <div className="hidden md:flex">
             <HeaderBreadcrumb baseBreadcrumb={props.baseBreadcrumb} basePath={props.basePath} items={props.items} />
           </div>
@@ -185,11 +182,7 @@ export default function SidebarLayout(props: {
             </div>
           </div>
 
-          <UserButton
-            colorModeToggle={() =>
-              setTheme(resolvedTheme === "light" ? "dark" : "light")
-            }
-          />
+          <UserButton />
         </div>
         <div className="flex-grow">{props.children}</div>
       </div>

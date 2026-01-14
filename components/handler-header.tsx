@@ -1,12 +1,10 @@
 'use client';
 
 import { UserButton, useUser } from "@stackframe/stack";
-import { useTheme } from "next-themes";
 import { Logo } from "./logo";
 
 export default function HandlerHeader() {
   const user = useUser();
-  const { theme, setTheme } = useTheme();
 
   return (
     <>
@@ -14,7 +12,7 @@ export default function HandlerHeader() {
         <Logo link={user ? "/dashboard" : "/"} variant="horizontal" />
 
         <div className="flex items-center justify-end gap-5">
-          <UserButton colorModeToggle={() => setTheme(theme === 'dark' ? 'light' : 'dark')} />
+          <UserButton />
         </div>
       </header>
       <div className="min-h-14"/> {/* Placeholder for fixed header */}
