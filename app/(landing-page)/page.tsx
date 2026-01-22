@@ -150,6 +150,7 @@ const businessJsonLd = {
       closes: "23:59",
       description: "Storage access 24/7",
     },
+    
     {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
