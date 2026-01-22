@@ -18,6 +18,12 @@ import middleLot from "@/assets/middle.jpg";
 import climateControl from "@/assets/climate control.jpg";
 import miniUnits from "@/assets/Mini Units.jpg";
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 type Props = {
   units: WssUnit[];
 };
@@ -26,6 +32,7 @@ const moveInBaseUrl = process.env.NEXT_PUBLIC_WSS_MOVE_IN_URL;
 const moveInTemplate = process.env.NEXT_PUBLIC_WSS_MOVE_IN_URL_TEMPLATE;
 const affiliatePortalUrl =
   "https://www.uhaul.com/Locations/Self-Storage-near-Cookeville-TN-38501/1032354/";
+const rentNowConversionId = "AW-17881731708/NDRuCLmazeobEPyk1s5C";
 
 type CategoryId = "indoor" | "drive-up" | "rv";
 type TypeFilter = "all" | CategoryId;
@@ -348,6 +355,11 @@ function UnitCard({ unit }: { unit: EnrichedUnit }) {
   };
   const moveInUrl = buildMoveInUrl(unit);
   const useExternalTarget = isExternalMoveInLink();
+  const handleRentNowClick = () => {
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      window.gtag("event", "conversion", { send_to: rentNowConversionId });
+    }
+  };
   return (
     <Card className="h-full flex flex-col justify-between">
       <CardHeader className="space-y-2 pb-2">
@@ -435,6 +447,7 @@ function UnitCard({ unit }: { unit: EnrichedUnit }) {
               className={buttonVariants({ className: "w-full" })}
               target={useExternalTarget ? "_blank" : undefined}
               rel={useExternalTarget ? "noreferrer" : undefined}
+              onClick={handleRentNowClick}
             >
               Rent Now
             </Link>

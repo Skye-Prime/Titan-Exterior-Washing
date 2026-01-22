@@ -218,13 +218,13 @@ export default function CookevilleStoragePage() {
           <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-start">
             <div className="space-y-4">
               <h2 className="text-2xl md:text-3xl font-semibold">
-                Storage units in Cookeville, TN
+                About us
               </h2>
               <p className="text-muted-foreground">
-                The facility is located at 2237 W Broad St in Cookeville, TN 38501, near the
-                West Broad Street corridor with quick access from I-40 and Tennessee Tech
-                University. This page covers unit types, access, and location details so you
-                can confirm fit before renting.
+                360 Storage Solutions is located at 2237 W Broad St in Cookeville, TN 38501, near
+                the West Broad Street corridor with quick access from I-40 and Tennessee Tech
+                University. This page covers unit types, access, and location details so you can
+                confirm fit before renting.
               </p>
               <p className="text-muted-foreground">
                 Use the size guide to compare units, check availability online, and plan your

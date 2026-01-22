@@ -8,7 +8,7 @@ export default function Layout(props: { children: React.ReactNode }) {
         items={[
           { title: "Home", href: "/" },
           { title: "Why 360", href: "/#why-360" },
-          { title: "Cookeville storage", href: "/storage-units-cookeville-tn" },
+          { title: "About us", href: "/storage-units-cookeville-tn" },
           { title: "Units", href: "/units" },
           { title: "Tenant Insurance", href: "/tenant-insurance" },
           { title: "Reviews", href: "/#reviews" },

@@ -219,7 +219,7 @@ export default function IndexPage() {
         title="Storage that doesn’t waste your time."
         subtitle="Clean, secure units. Clear pricing. Real people when you call."
         primaryCtaText="View available units"
-        primaryCtaLink="/storage-units-cookeville-tn"
+        primaryCtaLink="/units"
         secondaryCtaText="Pay Online"
         secondaryCtaLink={PAY_URL}
         backgroundImages={[
@@ -259,7 +259,7 @@ export default function IndexPage() {
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="/storage-units-cookeville-tn"
+                  href="/units"
                   className={buttonVariants({ size: "lg" })}
                 >
                   Check availability
