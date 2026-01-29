@@ -112,7 +112,10 @@ const businessJsonLd = {
   },
   review: reviews.map((review) => ({
     "@type": "Review",
-    author: review.name,
+    author: {
+      "@type": "Person",
+      name: review.name,
+    },
     reviewRating: {
       "@type": "Rating",
       ratingValue: review.rating,

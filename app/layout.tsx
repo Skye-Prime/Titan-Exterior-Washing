@@ -45,6 +45,37 @@ export const metadata: Metadata = {
   },
 };
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.360storagesolutions.com";
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "360 Storage Solutions",
+  url: SITE_URL,
+  logo: {
+    "@type": "ImageObject",
+    url: new URL("/icon.png", SITE_URL).toString(),
+  },
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "360 Storage Solutions",
+  url: SITE_URL,
+  author: {
+    "@type": "Organization",
+    name: "360 Storage Solutions",
+    url: SITE_URL,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "360 Storage Solutions",
+    url: SITE_URL,
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -53,6 +84,22 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <Script
+          id="organization-jsonld"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <Script
+          id="website-jsonld"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17881731708"
           strategy="afterInteractive"
