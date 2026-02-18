@@ -8,8 +8,8 @@ import * as React from "react";
 import { Logo } from "./logo";
 import { Button, buttonVariants } from "./ui/button";
 
-const PHONE_DISPLAY = "+1 (931) 209-4395";
-const PHONE_LINK = "tel:+19312094395";
+const PHONE_DISPLAY = "(931) 316-9839";
+const PHONE_LINK = "tel:+19313169839";
 
 interface NavProps {
   heroId?: string;
@@ -25,14 +25,14 @@ interface NavProps {
 function MobileItems(props: NavProps & { showPayInHeader?: boolean }) {
   return (
     <div className="fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 animate-in slide-in-from-bottom-80 md:hidden">
-      <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
+      <div className="relative z-20 grid gap-6 rounded-md border border-primary/30 bg-popover p-4 text-popover-foreground shadow-md">
         <nav className="grid grid-flow-row auto-rows-max text-sm">
           {props.items?.map((item, index) => (
             <Link
               key={index}
               href={item.disabled ? "#" : item.href}
               className={cn(
-                "flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline",
+                "flex w-full items-center rounded-md p-2 text-sm font-medium transition-colors hover:bg-primary/20",
                 item.disabled && "cursor-not-allowed opacity-60"
               )}
               target={item.external ? "_blank" : undefined}
@@ -57,7 +57,7 @@ function MobileItems(props: NavProps & { showPayInHeader?: boolean }) {
             </Link>
             <Link
               href={PHONE_LINK}
-              className={buttonVariants({ variant: "outline", size: "lg" })}
+              className={buttonVariants({ variant: "secondary", size: "lg" })}
             >
               {PHONE_DISPLAY}
             </Link>
@@ -79,10 +79,10 @@ function DesktopItems(props: NavProps) {
           key={index}
           href={item.disabled ? "#" : item.href}
           className={cn(
-            "flex items-center whitespace-nowrap text-sm font-medium leading-none transition-colors hover:text-foreground/80",
+            "flex items-center whitespace-nowrap text-sm font-medium leading-none transition-colors hover:text-accent",
             item.href.startsWith(`/${segment}`)
-              ? "text-foreground"
-              : "text-foreground/60",
+              ? "text-primary-foreground"
+              : "text-primary-foreground/95",
             item.disabled && "cursor-not-allowed opacity-80"
           )}
           target={item.external ? "_blank" : undefined}
@@ -149,7 +149,7 @@ export function LandingPageHeader(props: NavProps) {
   return (
     <header
       ref={headerRef}
-      className="fixed w-full z-40 bg-slate-100/60 px-4 md:px-8 backdrop-blur"
+      className="fixed w-full z-40 border-b border-primary/20 bg-primary/95 px-4 text-primary-foreground backdrop-blur md:px-8"
       style={{ top: "var(--promo-banner-offset, 0px)" }}
     >
       <div
@@ -200,7 +200,7 @@ export function LandingPageHeader(props: NavProps) {
           </Link>
           <Link
             href={PHONE_LINK}
-            className={buttonVariants({ variant: "outline", size: "lg" })}
+            className={buttonVariants({ variant: "secondary", size: "lg" })}
           >
             Call us
           </Link>

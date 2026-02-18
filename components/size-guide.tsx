@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Car, Grid2x2, Grid3x3, LayoutGrid } from "lucide-react";
+import { Grid2x2, Grid3x3, LayoutGrid } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import smallUnit from "@/assets/small unit.webp";
-import mediumUnit from "@/assets/medium unit.webp";
-import largeUnit from "@/assets/large unit.webp";
-import rvUnit from "@/assets/rv.webp";
+import smallUnit from "@/assets/driveway - clean.jpeg";
+import mediumUnit from "@/assets/Driveway - dirty.jpeg";
+import largeUnit from "@/assets/diving board - clean.jpeg";
 
 export type AvailableSize = {
   width: number;
@@ -20,7 +19,7 @@ type SizeGuideProps = {
   rentUrl: string;
 };
 
-type SizeGuideCategory = "small" | "medium" | "large" | "vehicle";
+type SizeGuideCategory = "concrete" | "housewash" | "fences";
 
 type SizeGuideCard = {
   key: SizeGuideCategory;
@@ -30,141 +29,110 @@ type SizeGuideCard = {
 };
 
 const CATEGORY_UNITS: Record<SizeGuideCategory, string[]> = {
-  small: [
-    "4x8x11 – Interior climate swing, electric",
-    "4x11x11 – Interior climate swing, no electric",
-    "5x8.4x6.4x11 – Interior climate rollup, no electric",
-    "6x11x12 – Drive-up, no climate, rollup",
-    "5x8x13.8x11 – Interior climate swing, no electric",
+  concrete: [
+    "Driveways and sidewalks",
+    "Patios and pool decks",
+    "Garage floors and entry pads",
+    "Stain and mildew treatment options",
+    "Pre- and post-rinse surface protection",
   ],
-  medium: [
-    "5x14x16 – Drive-up, rollup, no climate",
-    "7.5x11.5x10 – Interior climate",
-    "8x11x10 – Interior climate",
-    "10x9x8 – Drive-up, no climate",
-    "10x11x8 – Drive-up, no climate",
-    "10.5x12x12 – Interior climate rollup",
+  housewash: [
+    "Brick exteriors",
+    "Vinyl siding",
+    "Soffits, fascia, and gutters",
+    "Algae and oxidation-safe cleaning process",
+    "Low-pressure soft wash where required",
   ],
-  large: [
-    "12x11.5x8 – Drive-up rollup",
-    "10x20x8 – Drive-up rollup",
-    "10x20x12 – Drive-up rollup",
-    "12x37.5x12 – Drive-up rollup bonus",
-    "14x38x8 – Drive-up rollup",
-    "20x38x16 – Drive-up rollup bonus",
-    "26x36x15 – Drive-up rollup with electricity",
-  ],
-  vehicle: [
-    "12x20x16 – RV/Boat/Vehicle covered",
-    "12x40x16 – RV/Boat/Vehicle enclosed",
-    "12x40x16 – RV/Boat/Vehicle outside",
-    "12x40x16 – RV/Boat/Vehicle sub-basement covered",
-    "15x40x20 – RV/Boat/Vehicle, no climate bonus",
-    "23x68x20 – RV/Boat/Vehicle/Parking",
+  fences: [
+    "Wood fence brightening and cleanup",
+    "Vinyl fence wash and stain removal",
+    "Gate and post detail cleaning",
+    "Mildew and organic buildup treatment",
+    "Rinse and surrounding area cleanup",
   ],
 };
 
 const SIZE_GUIDE_CARDS: SizeGuideCard[] = [
   {
-    key: "small",
-    title: "Small",
+    key: "concrete",
+    title: "Concrete Cleaning",
     description:
-      "Small storage units are ideal for boxes, seasonal items, small furniture, and apartment overflow.\nComparable in size to a walk-in closet.",
-    image: { src: smallUnit.src, alt: "Small storage units for boxes and small furniture" },
+      "Concrete cleaning is ideal for restoring curb appeal and removing dark buildup from high-traffic surfaces.\nBest for driveways, sidewalks, patios, and entry pads.",
+    image: { src: smallUnit.src, alt: "Cleaned concrete driveway and walkway" },
   },
   {
-    key: "medium",
-    title: "Medium",
+    key: "housewash",
+    title: "House Wash (Brick & Vinyl)",
     description:
-      "Medium storage units are commonly used for apartment moves, small homes, and business storage.\nComparable to a spare bedroom or studio apartment.",
-    image: { src: mediumUnit.src, alt: "Medium storage units for apartment moves" },
+      "House washing removes algae, dirt, and surface discoloration while protecting exterior materials.\nWe tailor pressure and detergents for brick and vinyl surfaces.",
+    image: { src: mediumUnit.src, alt: "House exterior wash for brick and vinyl siding" },
   },
   {
-    key: "large",
-    title: "Large",
+    key: "fences",
+    title: "Fence Cleaning",
     description:
-      "Large storage units are ideal for full-home moves, garages, commercial storage, and construction materials.\nComparable to a one-to-two car garage or the contents of a multi-bedroom home.",
-    image: { src: largeUnit.src, alt: "Large storage unit for full-home moves" },
-  },
-  {
-    key: "vehicle",
-    title: "Parking",
-    description:
-      "Vehicle and RV storage spaces are designed for cars, trucks, trailers, boats, and recreational vehicles.\nOptions include covered, uncovered, and fully enclosed parking.",
-    image: { src: rvUnit.src, alt: "Vehicle and RV parking storage" },
+      "Fence cleaning refreshes weathered surfaces and removes mildew, algae, and grime.\nIdeal for wood and vinyl fences that need a brighter, cleaner finish.",
+    image: { src: largeUnit.src, alt: "Fence cleaning service results" },
   },
 ];
 
-const CATEGORY_ORDER: SizeGuideCategory[] = ["small", "medium", "large", "vehicle"];
+const CATEGORY_ORDER: SizeGuideCategory[] = ["concrete", "housewash", "fences"];
 
 const CATEGORY_META: Record<
   SizeGuideCategory,
-  { label: string; range: string; icon: JSX.Element }
+  { label: string; range: string; icon: JSX.Element; service: string }
 > = {
-  small: {
-    label: "Small",
-    range: "25 – 50 sq ft",
+  concrete: {
+    label: "Concrete",
+    range: "Driveways, patios, sidewalks",
     icon: <Grid2x2 className="h-6 w-6 text-slate-700" />,
+    service: "concrete cleaning",
   },
-  medium: {
-    label: "Medium",
-    range: "75 – 150 sq ft",
+  housewash: {
+    label: "House Wash",
+    range: "Brick and vinyl exteriors",
     icon: <LayoutGrid className="h-6 w-6 text-slate-700" />,
+    service: "house wash",
   },
-  large: {
-    label: "Large",
-    range: "200 – 300 sq ft",
+  fences: {
+    label: "Fences",
+    range: "Wood and vinyl fencing",
     icon: <Grid3x3 className="h-6 w-6 text-slate-700" />,
-  },
-  vehicle: {
-    label: "Parking",
-    range: "12x20 - 23x68",
-    icon: <Car className="h-6 w-6 text-slate-700" />,
+    service: "fence cleaning",
   },
 };
 
-const CATEGORY_FILTER_VALUE: Record<SizeGuideCategory, string> = {
-  small: "small",
-  medium: "medium",
-  large: "large",
-  vehicle: "rv",
+const CATEGORY_SERVICE_VALUE: Record<SizeGuideCategory, string> = {
+  concrete: "concrete",
+  housewash: "house-wash",
+  fences: "fence-cleaning",
 };
 
-function buildRentUrl(baseUrl: string, sizeParam?: string, typeParam?: string) {
+function buildRentUrl(baseUrl: string, serviceParam?: string) {
   const [path, queryString = ""] = baseUrl.split("?");
   const params = new URLSearchParams(queryString);
-  if (sizeParam) {
-    params.set("size", sizeParam);
-  }
-  if (typeParam) {
-    params.set("type", typeParam);
+  if (serviceParam) {
+    params.set("service", serviceParam);
   }
   const query = params.toString();
   return query ? `${path}?${query}` : path;
 }
 
 export function SizeGuide({ rentUrl }: SizeGuideProps) {
-  const [selectedCategory, setSelectedCategory] = useState<SizeGuideCategory>("small");
+  const [selectedCategory, setSelectedCategory] = useState<SizeGuideCategory>("concrete");
   const availableCategories = CATEGORY_ORDER.filter(
     (category) => CATEGORY_UNITS[category].length > 0
   );
   const visibleCards = SIZE_GUIDE_CARDS.filter((card) => card.key === selectedCategory);
   const visibleUnits = CATEGORY_UNITS[selectedCategory];
-  const sizeParam =
-    selectedCategory === "vehicle" ? undefined : CATEGORY_FILTER_VALUE[selectedCategory];
-  const typeParam =
-    selectedCategory === "vehicle" ? CATEGORY_FILTER_VALUE[selectedCategory] : undefined;
-  const rentLink = buildRentUrl(rentUrl, sizeParam, typeParam);
-  const buttonLabel =
-    selectedCategory === "vehicle"
-      ? "View available parking spaces"
-      : `View available ${CATEGORY_META[selectedCategory].label.toLowerCase()} units`;
+  const rentLink = buildRentUrl(rentUrl, CATEGORY_SERVICE_VALUE[selectedCategory]);
+  const buttonLabel = `Get a quote for ${CATEGORY_META[selectedCategory].service}`;
 
   return (
     <section
       id="size-guide"
       role="region"
-      aria-label="Storage unit size guide"
+      aria-label="Exterior washing service guide"
       data-schema="size-guide"
       className="py-4"
     >
@@ -172,7 +140,7 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
         <aside className="space-y-4">
           <div className="rounded-2xl border bg-white p-4 shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">
-              Sizes
+              Services
             </p>
             <div className="mt-4 space-y-3">
               {availableCategories.map((category) => (
@@ -207,7 +175,7 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
               href={rentUrl}
               className={cn(buttonVariants({ variant: "outline", size: "sm" }), "mt-4 w-full")}
             >
-              View all available units
+              View all services
             </Link>
           </div>
         </aside>
@@ -241,7 +209,7 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
                   ))}
                   <div className="space-y-2 text-sm text-slate-600">
                     <p className="font-semibold text-slate-900">
-                      Units we have at this size:
+                      What this service covers:
                     </p>
                     {visibleUnits.length > 0 ? (
                       <ul className="list-disc pl-5">
@@ -250,7 +218,7 @@ export function SizeGuide({ rentUrl }: SizeGuideProps) {
                         ))}
                       </ul>
                     ) : (
-                      <p>there are not more units avialble in this size category currently</p>
+                      <p>This service option is not available right now.</p>
                     )}
                   </div>
                   <Link href={rentLink} className={buttonVariants({ size: "sm" })}>

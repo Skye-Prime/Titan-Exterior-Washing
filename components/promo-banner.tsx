@@ -75,7 +75,7 @@ export function PromoBanner({
       data-schema="offer"
       ref={bannerRef}
       className={cn(
-        "fixed inset-x-0 top-0 z-50 w-full border-b bg-white/95 backdrop-blur"
+        "fixed inset-x-0 top-0 z-50 w-full border-b border-primary/30 bg-secondary/95 text-secondary-foreground backdrop-blur"
       )}
     >
       <div
@@ -85,27 +85,27 @@ export function PromoBanner({
         )}
       >
         <div className="flex flex-col gap-1">
-          <strong className="text-base text-primary">
-            First month free storage for first-time renters
+          <strong className="text-base text-accent">
+            New-customer exterior wash offer
           </strong>
-          <p className="text-sm text-muted-foreground">
-            Renting your first unit at 360 Storage Solutions? Get your first month free for a limited time.
+          <p className="text-sm text-secondary-foreground">
+            Start with Titan and take control of your curb appeal with a limited-time first-service offer.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Link href={rentUrl} className={buttonVariants({ size: "sm" })}>
-            Rent a unit
+            Book service
           </Link>
           <a
             href={phoneLink}
-            className={buttonVariants({ variant: "outline", size: "sm" })}
+            className={buttonVariants({ variant: "secondary", size: "sm" })}
           >
             Call {phoneDisplay}
           </a>
           <button
             type="button"
             aria-label="Dismiss promotion"
-            className="ml-1 rounded-full border border-input px-2 py-1 text-sm text-muted-foreground transition hover:text-foreground"
+            className="ml-1 rounded-full border border-secondary-foreground/40 px-2 py-1 text-sm text-secondary-foreground/85 transition hover:text-secondary-foreground"
             onClick={() => setDismissed(true)}
           >
             x

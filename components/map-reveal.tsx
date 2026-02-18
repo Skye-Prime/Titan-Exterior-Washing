@@ -183,7 +183,7 @@ export function MapRevealSection() {
       id="map-scroll-section"
       ref={sectionRef}
       aria-label="Facility layout map"
-      className="relative w-full bg-[#B5D7E9] facility-scroll-section"
+      className="relative w-full bg-[#B9CED6] facility-scroll-section"
       style={{ minHeight: sectionHeight }}
     >
       <div className="container max-w-6xl pt-8 pb-4 text-center flex justify-center">
@@ -213,7 +213,7 @@ export function MapRevealSection() {
             disabled={progress <= 0 || !assistVisible}
             onClick={jumpToStart}
             className={cn(
-              "pointer-events-auto h-10 w-10 rounded-full border border-slate-300 bg-white text-slate-800 shadow-sm transition",
+              "pointer-events-auto h-10 w-10 rounded-full border border-border bg-card text-foreground shadow-sm transition",
               "opacity-70 hover:opacity-100 focus-visible:opacity-100",
               "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
               "disabled:cursor-not-allowed disabled:opacity-30"
@@ -227,7 +227,7 @@ export function MapRevealSection() {
             disabled={!assistVisible}
             onClick={jumpToEnd}
             className={cn(
-              "pointer-events-auto h-10 w-10 rounded-full border border-slate-300 bg-white text-slate-800 shadow-sm transition",
+              "pointer-events-auto h-10 w-10 rounded-full border border-border bg-card text-foreground shadow-sm transition",
               "opacity-70 hover:opacity-100 focus-visible:opacity-100",
               "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             )}

@@ -55,8 +55,8 @@ function NavItem(props: {
       href={props.basePath + props.item.href}
       className={cn(
         buttonVariants({ variant: "ghost", size: "sm" }),
-        selected && "bg-muted",
-        "flex-grow justify-start text-md text-zinc-800 px-2"
+        selected && "bg-primary/15 text-primary",
+        "flex-grow justify-start px-2 text-md text-foreground"
       )}
       onClick={props.onClick}
       prefetch={true}
@@ -98,7 +98,7 @@ function SidebarContent(props: {
           } else {
             return (
               <div key={index} className="flex my-2">
-                <div className="flex-grow justify-start text-sm font-medium text-zinc-500 px-2">
+                <div className="flex-grow justify-start px-2 text-sm font-medium text-muted-foreground">
                   {item.name}
                 </div>
               </div>
@@ -150,11 +150,11 @@ export default function SidebarLayout(props: {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="w-full flex">
-      <div className="flex-col border-r w-[240px] h-screen sticky top-0 hidden md:flex">
+      <div className="sticky top-0 hidden h-screen w-[240px] flex-col border-r bg-card md:flex">
         <SidebarContent items={props.items} sidebarTop={props.sidebarTop} basePath={props.basePath} />
       </div>
       <div className="flex flex-col flex-grow w-0">
-        <div className="h-14 border-b flex items-center justify-between sticky top-0 bg-white z-10 px-4 md:px-6">
+        <div className="sticky top-0 z-10 flex h-14 items-center justify-between border-b bg-primary px-4 text-primary-foreground md:px-6">
           <div className="hidden md:flex">
             <HeaderBreadcrumb baseBreadcrumb={props.baseBreadcrumb} basePath={props.basePath} items={props.items} />
           </div>
@@ -167,7 +167,7 @@ export default function SidebarLayout(props: {
               <SheetTrigger>
                 <Menu />
               </SheetTrigger>
-              <SheetContent side="left" className="w-[240px] p-0">
+              <SheetContent side="left" className="w-[240px] border-r border-primary/30 bg-secondary p-0 text-secondary-foreground">
                 <SidebarContent
                   onNavigate={() => setSidebarOpen(false)}
                   items={props.items}

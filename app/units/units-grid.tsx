@@ -430,7 +430,7 @@ function UnitCard({ unit }: { unit: EnrichedUnit }) {
             <span className="text-lg font-semibold">{price}</span>
           </div>
           {unit.available && unit.availableCount !== undefined && unit.availableCount <= 3 ? (
-            <p className="text-[15px] font-semibold text-orange-600">
+            <p className="text-[15px] font-semibold text-primary">
               {unit.availableCount === 1
                 ? "Only 1 unit left — reserve soon!"
                 : `Only ${unit.availableCount} units left — reserve soon!`}

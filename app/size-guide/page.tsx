@@ -5,12 +5,12 @@ import { cn } from "@/lib/utils";
 import { SizeGuide } from "@/components/size-guide";
 import heroImage from "@/assets/middle.jpg";
 
-const PHONE_DISPLAY = "+1 (931) 209-4395";
-const PHONE_LINK = "tel:+19312094395";
+const PHONE_DISPLAY = "(931) 316-9839";
+const PHONE_LINK = "tel:+19313169839";
 const RENT_URL = "/units";
 
 export const metadata: Metadata = {
-  title: "Storage Unit Size Guide in Cookeville, TN | 360 Storage Solutions",
+  title: "Storage Unit Size Guide in Cookeville, TN | Titan Exterior Washing",
   description:
     "Compare storage unit sizes in Cookeville, TN by real-world use cases. Find the right fit for apartments, home moves, and RV storage.",
   alternates: {

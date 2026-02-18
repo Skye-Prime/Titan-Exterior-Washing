@@ -1,12 +1,17 @@
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: "/favicon.ico",
-        destination: "/icon.png",
-      },
-    ];
+  outputFileTracingRoot: __dirname,
+  webpack: (config, { dev }) => {
+    if (dev) {
+      // Avoid occasional corrupted persistent cache artifacts in local dev.
+      config.cache = false;
+    }
+    return config;
   },
 };
 

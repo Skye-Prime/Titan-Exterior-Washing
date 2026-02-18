@@ -6,13 +6,13 @@ import { cn } from "@/lib/utils";
 import { getAvailableUnits, WssUnit } from "@/lib/wssClient";
 import UnitsGrid from "./units-grid";
 
-const PHONE_DISPLAY = "+1 (931) 209-4395";
-const PHONE_LINK = "tel:+19312094395";
+const PHONE_DISPLAY = "(931) 316-9839";
+const PHONE_LINK = "tel:+19313169839";
 
 export const metadata: Metadata = {
-  title: "Storage Units in Cookeville, TN | 360 Storage Solutions",
+  title: "Storage Units in Cookeville, TN | Titan Exterior Washing",
   description:
-    "Browse climate-controlled and drive-up storage units with live availability in Cookeville, Tennessee. Reserve or move in online at 360 Storage Solutions.",
+    "Browse climate-controlled and drive-up storage units with live availability in Cookeville, Tennessee. Reserve or move in online at Titan Exterior Washing.",
   alternates: {
     canonical: "/units",
   },

@@ -5,66 +5,64 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Camera, Clock, LockKeyhole, MapPin, PhoneCall, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import Script from "next/script";
 import officeHero from "@/assets/Office.jpg";
 import officeImage from "@/assets/office-image.jpg";
 import rvLotFirst from "@/assets/RV Storage - First lot.jpg";
 import reviewsBackground from "@/assets/background image 1.jpg";
 import miniUnits from "@/assets/Mini Units.jpg";
 
-const PHONE_DISPLAY = "+1 (931) 209-4395";
-const PHONE_LINK = "tel:+19312094395";
+const PHONE_DISPLAY = "(931) 316-9839";
+const PHONE_LINK = "tel:+19313169839";
 const PROMO_ACTIVE = true;
-const PAY_URL = "/pay";
 const RENT_URL = "/units";
 const SIZE_GUIDE_RENT_URL = "/units";
 const MOBILE_BREAKPOINT = 768;
 const CITY_NAME = "Cookeville";
-const PHONE_NUMBER_SCHEMA = "+1-931-209-4395";
+const PHONE_NUMBER_SCHEMA = "+1-931-316-9839";
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.360storagesolutions.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.titanexteriorwashing.com";
 const MAPS_LINK =
   "https://maps.google.com/?q=2237+W+Broad+St+Cookeville+TN+38501";
 const REVIEW_URL =
   process.env.NEXT_PUBLIC_REVIEW_URL ||
-  "https://www.google.com/maps/place/360+Storage+Solutions/@36.1776918,-85.5737668,17z/data=!4m8!3m7!1s0x8867219715cd6e71:0x7e8dbccd0b228f50!8m2!3d36.1776876!4d-85.5688959!9m1!1b1!16s%2Fg%2F11sjbptth5?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D";
+  "https://www.google.com/maps/search/?api=1&query=Titan+Exterior+Washing";
 
 const features = [
   {
     icon: <Clock className="h-10 w-10 text-primary" />,
-    title: "Serving neighbors since 2016",
+    title: "Scheduling that works for you",
     description:
-      "Long-term, consistent ownership with a steady local reputation.",
+      "Pick the day and service window that fits your week. We show up prepared.",
   },
   {
     icon: <ShieldCheck className="h-10 w-10 text-primary" />,
-    title: "Clear policies, no surprises",
+    title: "Protection-first process",
     description:
-      "Straightforward terms and transparent pricing you can understand.",
+      "We treat every surface with the right method so your property is cleaned, not worn down.",
   },
   {
     icon: <Camera className="h-10 w-10 text-primary" />,
-    title: "Clean, well-kept property",
+    title: "Results you can see",
     description:
-      "We stay on top of maintenance so the facility feels orderly and safe.",
+      "From siding to concrete, we focus on details that keep your place looking sharp.",
   },
   {
     icon: <PhoneCall className="h-10 w-10 text-primary" />,
-    title: "Real people when you call",
+    title: "Clear communication",
     description:
-      "Talk to a local team member who can help you quickly.",
+      "You get direct updates, straightforward pricing, and answers without runaround.",
   },
   {
     icon: <LockKeyhole className="h-10 w-10 text-primary" />,
-    title: "Secure, orderly access",
+    title: "Fully insured protection",
     description:
-      "Clear gates, bright lighting, and systems that keep things controlled.",
+      "Titan Exterior Washing is fully insured to protect you and your property.",
   },
   {
     icon: <MapPin className="h-10 w-10 text-primary" />,
-    title: "Easy to find, easy to use",
+    title: "Local, accountable team",
     description:
-      "Drive up, unload, and get back to your day without hassle.",
+      "We serve Cookeville and nearby communities with consistent, professional care.",
   },
 ];
 
@@ -120,8 +118,8 @@ const reviewCardOffsets = [
 
 const businessJsonLd = {
   "@context": "https://schema.org",
-  "@type": "SelfStorage",
-  name: "360 Storage Solutions",
+  "@type": "ProfessionalService",
+  name: "Titan Exterior Washing",
   url: SITE_URL,
   telephone: PHONE_NUMBER_SCHEMA,
   address: {
@@ -148,7 +146,7 @@ const businessJsonLd = {
       ],
       opens: "00:00",
       closes: "23:59",
-      description: "Storage access 24/7",
+      description: "Online requests accepted 24/7",
     },
     
     {
@@ -156,7 +154,7 @@ const businessJsonLd = {
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       opens: "10:00",
       closes: "17:00",
-      description: "Office hours or by appointment",
+      description: "Phone support and appointments",
     },
   ],
   areaServed: [
@@ -171,7 +169,7 @@ const businessJsonLd = {
     availability: "https://schema.org/InStock",
     itemOffered: {
       "@type": "Service",
-      name: "Self storage units",
+      name: "Exterior washing and property cleaning",
       areaServed: "Middle Tennessee",
     },
   },
@@ -199,10 +197,9 @@ const businessJsonLd = {
 export default function IndexPage() {
   return (
     <>
-      <Script
+      <script
         id="local-business-jsonld"
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(businessJsonLd),
         }}
@@ -217,55 +214,55 @@ export default function IndexPage() {
       />
       <Hero
         id="hero"
-        capsuleText="Trusted local storage"
-        capsuleLink="#why-360"
-        title="Storage that doesn’t waste your time."
-        subtitle="Clean, secure units. Clear pricing. Real people when you call."
-        primaryCtaText="View available units"
+        capsuleText="Exterior care on your terms"
+        capsuleLink="#why-titan"
+        title="Clean surfaces. Protected finishes. Service built around you."
+        subtitle="You call the priorities. We deliver exterior washing with clear communication, careful methods, and dependable follow-through."
+        primaryCtaText="View services"
         primaryCtaLink="/units"
-        secondaryCtaText="Pay Online"
-        secondaryCtaLink={PAY_URL}
+        secondaryCtaText="Call for a quote"
+        secondaryCtaLink={PHONE_LINK}
         backgroundImages={[
-          { src: officeHero, alt: "Office exterior at 360 Storage Solutions" },
+          { src: officeHero, alt: "Office exterior at Titan Exterior Washing" },
           { src: miniUnits, alt: "Storage unit rows at the facility" },
           { src: rvLotFirst, alt: "Outdoor parking area on-site" },
         ]}
       />
       <div className="space-y-0">
-        <section id="size-guide" className="bg-[#B5D7E9] py-12 md:py-16">
+        <section id="size-guide" className="bg-[#B9CED6] py-12 md:py-16">
           <div className="container max-w-6xl space-y-6">
             <div className="space-y-2">
-              <p className="text-sm uppercase tracking-[0.3em] text-primary">Size guide</p>
-              <h2 className="text-3xl font-semibold">Find the right unit size</h2>
+              <p className="text-sm uppercase tracking-[0.3em] text-primary">Service options</p>
+              <h2 className="text-3xl font-semibold">Choose the type of washing you need</h2>
               <p className="text-muted-foreground">
-                Browse sizes, compare use cases, and jump straight to availability.
+                Compare concrete cleaning, house washing, and fence cleaning to find the best fit for your property.
               </p>
             </div>
             <SizeGuide rentUrl={SIZE_GUIDE_RENT_URL} />
           </div>
         </section>
 
-        <section id="why-360" className="bg-[#B5D7E9] scroll-mt-28">
+        <section id="why-titan" className="bg-[#B9CED6] scroll-mt-28">
           <div className="container max-w-6xl grid gap-8 py-12 md:grid-cols-3 md:items-start md:py-16">
             <div className="md:col-span-1 space-y-4">
               <div className="flex items-center gap-2">
                 <span className="h-px w-10 bg-primary/50" />
                 <p className="text-sm uppercase tracking-[0.2em] text-primary">
-                  Why 360
+                  Why Titan
                 </p>
               </div>
               <h2 className="text-3xl font-semibold leading-tight">
-                Straightforward people. Straightforward storage.
+                Professional service, with you in control.
               </h2>
               <p className="text-muted-foreground">
-                You want a place that answers the phone, keeps the property clean, and makes the process easy. That is exactly how we run the facility.
+                You should never feel stuck waiting on a contractor. We make scheduling, scope, and expectations clear so you can make confident decisions.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
                   href="/units"
                   className={buttonVariants({ size: "lg" })}
                 >
-                  Check availability
+                  Explore services
                 </Link>
                 <Link
                   href={PHONE_LINK}
@@ -322,9 +319,9 @@ export default function IndexPage() {
                   <span className="flex text-amber-500 text-2xl" aria-label="Five star reviews">
                     ★★★★★
                   </span>
-                  <h3 className="text-3xl font-semibold">What neighbors say about 360 Storage Solutions</h3>
+                  <h3 className="text-3xl font-semibold">What neighbors say about Titan Exterior Washing</h3>
                   <span className="text-sm text-white/80">
-                    Real reviews from people who wanted it to be easy.
+                    Real feedback from customers who wanted control, clarity, and clean results.
                   </span>
                 </div>
                 <Link
@@ -334,7 +331,6 @@ export default function IndexPage() {
                   className={buttonVariants({
                     size: "lg",
                     variant: "secondary",
-                    className: "bg-white text-slate-900 hover:bg-white/90",
                   })}
                 >
                   Leave a review
@@ -384,9 +380,9 @@ export default function IndexPage() {
                     Ready?
                   </p>
                 </div>
-                <h3 className="text-3xl font-semibold">Talk to a real person today</h3>
+                <h3 className="text-3xl font-semibold">Tell us what you need. We will build the right plan.</h3>
                 <p className="text-muted-foreground">
-                  Quick answers, clear pricing, and a team that respects your time.
+                  Straight answers, respectful service, and clean outcomes that protect your property.
                 </p>
               </div>
               <div className="flex flex-wrap justify-center gap-3">
@@ -394,7 +390,7 @@ export default function IndexPage() {
                   href="/storage-units-cookeville-tn"
                   className={buttonVariants({ size: "lg" })}
                 >
-                  View available units
+                  View service options
                 </Link>
                 <Link
                   href={PHONE_LINK}
@@ -409,14 +405,14 @@ export default function IndexPage() {
                   href="/storage-units-cookeville-tn"
                   className="font-semibold text-primary underline underline-offset-4"
                 >
-                  Self storage units in Cookeville, TN
+                  Exterior washing in Cookeville, TN
                 </Link>{" "}
                 or{" "}
                 <Link
                   href="/storage-units-cookeville-tn"
                   className="font-semibold text-primary underline underline-offset-4"
                 >
-                  Cookeville storage facility
+                  property cleaning services
                 </Link>
                 .
               </p>

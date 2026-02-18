@@ -5,18 +5,18 @@ import { Provider } from "./provider";
 
 export const metadata: Metadata = {
   title: {
-    default: "Self Storage in Cookeville, TN | Climate-Controlled & Drive-Up Units",
-    template: "%s | 360 Storage Solutions",
+    default: "Exterior Washing in Cookeville, TN | Homes, Driveways, and Commercial Properties",
+    template: "%s | Titan Exterior Washing",
   },
   description:
-    "Secure, local self storage in Cookeville, TN with climate-controlled and drive-up units, gated access, and friendly Middle Tennessee service.",
+    "Professional exterior washing in Cookeville, TN with dependable scheduling, surface-safe methods, and protection-first service.",
   keywords: [
-    "Cookeville self storage",
-    "Middle Tennessee storage units",
-    "climate controlled storage Cookeville",
-    "drive up storage units",
-    "gated storage facility",
-    "360 Storage Solutions",
+    "Cookeville exterior washing",
+    "house washing Cookeville TN",
+    "driveway cleaning Cookeville",
+    "commercial exterior cleaning",
+    "property protection cleaning",
+    "Titan Exterior Washing",
   ],
   alternates: {
     canonical: "/",
@@ -26,32 +26,33 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "Self Storage in Cookeville, TN | Climate-Controlled & Drive-Up Units",
+    title: "Exterior Washing in Cookeville, TN | Homes, Driveways, and Commercial Properties",
     description:
-      "Climate-controlled and drive-up storage units with gated access, 24/7 surveillance, and local support in Cookeville, Tennessee.",
-    siteName: "360 Storage Solutions",
+      "Get exterior washing service built around your schedule, your standards, and your property priorities in Cookeville, Tennessee.",
+    siteName: "Titan Exterior Washing",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Self Storage in Cookeville, TN | Climate-Controlled & Drive-Up Units",
+    title: "Exterior Washing in Cookeville, TN | Homes, Driveways, and Commercial Properties",
     description:
-      "Reserve storage units online with secure access, cameras, and local support from 360 Storage Solutions in Cookeville, TN.",
+      "Book exterior washing with local professionals focused on clean results, protected surfaces, and clear communication.",
   },
-  category: "Real Estate",
+  category: "Home Services",
   icons: {
     icon: "/icon.png",
   },
 };
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.360storagesolutions.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.titanexteriorwashing.com";
+const ENABLE_ANALYTICS = process.env.NODE_ENV === "production";
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "360 Storage Solutions",
+  name: "Titan Exterior Washing",
   url: SITE_URL,
   logo: {
     "@type": "ImageObject",
@@ -62,16 +63,16 @@ const organizationJsonLd = {
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "360 Storage Solutions",
+  name: "Titan Exterior Washing",
   url: SITE_URL,
   author: {
     "@type": "Organization",
-    name: "360 Storage Solutions",
+    name: "Titan Exterior Washing",
     url: SITE_URL,
   },
   publisher: {
     "@type": "Organization",
-    name: "360 Storage Solutions",
+    name: "Titan Exterior Washing",
     url: SITE_URL,
   },
 };
@@ -84,32 +85,34 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script
+        <script
           id="organization-jsonld"
           type="application/ld+json"
-          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
-        <Script
+        <script
           id="website-jsonld"
           type="application/ld+json"
-          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteJsonLd),
           }}
         />
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17881731708"
-          strategy="afterInteractive"
-        />
-        <Script id="google-tag" strategy="afterInteractive">
-          {`window.dataLayer = window.dataLayer || [];
+        {ENABLE_ANALYTICS ? (
+          <>
+            <Script
+              src="https://www.googletagmanager.com/gtag/js?id=AW-17881731708"
+              strategy="afterInteractive"
+            />
+            <Script id="google-tag" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'AW-17881731708');`}
-        </Script>
+            </Script>
+          </>
+        ) : null}
       </head>
       <body className="font-sans">
         <Provider>

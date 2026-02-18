@@ -5,21 +5,21 @@ export function Footer() {
     <footer className="border-t">
       <div className="container flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-lg font-semibold">360 Storage Solutions</p>
+          <p className="text-lg font-semibold">Titan Exterior Washing</p>
           <p className="text-sm text-muted-foreground">
-            Local and reliable self storage serving Middle Tennessee since 2016.
+            Exterior cleaning and property protection for homes and businesses across Middle Tennessee.
           </p>
           <Link
             href="/storage-units-cookeville-tn"
             className="text-sm font-semibold text-primary underline underline-offset-4"
           >
-            Cookeville storage units
+            Cookeville service area
           </Link>
         </div>
         <p className="text-sm text-muted-foreground">
-          Call now for more information and to reserve your space.
+          Tell us what you need cleaned and when.
           <br />
-          <span className="text-foreground font-semibold">+1 (931) 209-4395</span>
+          <span className="text-foreground font-semibold">(931) 316-9839</span>
         </p>
       </div>
     </footer>

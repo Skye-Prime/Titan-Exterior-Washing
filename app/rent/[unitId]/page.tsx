@@ -6,13 +6,13 @@ import { cn } from "@/lib/utils";
 import { getAvailableUnits, WssUnit } from "@/lib/wssClient";
 import { RentForm } from "./rent-form";
 
-const PHONE_DISPLAY = "+1 (931) 209-4395";
-const PHONE_LINK = "tel:+19312094395";
+const PHONE_DISPLAY = "(931) 316-9839";
+const PHONE_LINK = "tel:+19313169839";
 
 export const metadata: Metadata = {
-  title: "Reserve a Storage Unit Online | 360 Storage Solutions",
+  title: "Reserve a Storage Unit Online | Titan Exterior Washing",
   description:
-    "Finish your Cookeville, TN storage unit reservation securely with 360 Storage Solutions.",
+    "Finish your Cookeville, TN storage unit reservation securely with Titan Exterior Washing.",
   robots: {
     index: false,
     follow: true,

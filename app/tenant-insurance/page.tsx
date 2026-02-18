@@ -11,8 +11,8 @@ import coverageChart from "@/assets/Covererage chart.png";
 import certificatePageOne from "@/assets/TN certificate page 1.png";
 import certificatePageTwo from "@/assets/TN certificate page 2.png";
 
-const PHONE_DISPLAY = "+1 (931) 209-4395";
-const PHONE_LINK = "tel:+19312094395";
+const PHONE_DISPLAY = "(931) 316-9839";
+const PHONE_LINK = "tel:+19313169839";
 const RENT_URL = "/units";
 const CLAIMS_PHONE = "800-528-7134";
 const CLAIMS_PHONE_DISPLAY = "800-528-7134";
@@ -39,9 +39,9 @@ const claimSteps = [
 ];
 
 export const metadata: Metadata = {
-  title: "Tenant Insurance | 360 Storage Solutions",
+  title: "Tenant Insurance | Titan Exterior Washing",
   description:
-    "Tenant insurance details, coverage notes, and SafeStor signup guidance for 360 Storage Solutions in Cookeville, TN.",
+    "Tenant insurance details, coverage notes, and SafeStor signup guidance for Titan Exterior Washing in Cookeville, TN.",
   alternates: {
     canonical: "/tenant-insurance",
   },
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 
 export default function TenantInsurancePage() {
   return (
-    <div className="bg-white text-slate-900">
+    <div className="bg-background text-foreground">
       <section className="pt-28">
         <div className="container max-w-5xl text-center">
           <h1 className="text-3xl md:text-4xl font-semibold">Tenant Insurance</h1>
@@ -71,12 +71,12 @@ export default function TenantInsurancePage() {
                   Insurance is there to cover life&apos;s unexpected events.
                 </h2>
                 <p className="text-sm text-slate-700">
-                  360 Storage Solutions does not insure your goods. Tenant
+                  Titan Exterior Washing does not insure your goods. Tenant
                   insurance coverage is required. Choose coverage through
                   SafeStor or provide proof of coverage with a copy of your
                   declarations page and policy number.
                 </p>
-                <p className="text-sm font-semibold text-orange-500">
+                <p className="text-sm font-semibold text-primary">
                   Call today with questions: {PHONE_DISPLAY}
                 </p>
               </div>

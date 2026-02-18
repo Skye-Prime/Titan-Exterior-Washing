@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pay Your Storage Bill Securely | 360 Storage Solutions",
+  title: "Pay Your Storage Bill Securely | Titan Exterior Washing",
   description:
-    "Access the secure online payment portal for 360 Storage Solutions tenants.",
+    "Access the secure online payment portal for Titan Exterior Washing tenants.",
   robots: {
     index: false,
     follow: true,

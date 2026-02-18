@@ -1,23 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import Script from "next/script";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import heroBackground from "@/assets/background image 1.jpg";
 
-const PHONE_DISPLAY = "+1 (931) 209-4395";
-const PHONE_LINK = "tel:+19312094395";
+const PHONE_DISPLAY = "(931) 316-9839";
+const PHONE_LINK = "tel:+19313169839";
 const RENT_URL = "/units";
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.360storagesolutions.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.titanexteriorwashing.com";
 const MAPS_LINK =
   "https://maps.google.com/?q=2237+W+Broad+St+Cookeville+TN+38501";
 const MAP_EMBED_SRC =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12568.560486298632!2d-85.5405!3d36.1554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8866c1ca5cfb4fcb%3A0x5d3ea35ba678bea2!2s2237%20W%20Broad%20St%2C%20Cookeville%2C%20TN%2038501!5e0!3m2!1sen!2sus!4v1700000000000&maptype=satellite";
 const REVIEW_URL =
   process.env.NEXT_PUBLIC_REVIEW_URL ||
-  "https://www.google.com/maps/place/360+Storage+Solutions/@36.1776918,-85.5737668,17z/data=!4m8!3m7!1s0x8867219715cd6e71:0x7e8dbccd0b228f50!8m2!3d36.1776876!4d-85.5688959!9m1!1b1!16s%2Fg%2F11sjbptth5?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D";
+  "https://www.google.com/maps/search/?api=1&query=Titan+Exterior+Washing";
 
 const reviews = [
   {
@@ -47,38 +46,38 @@ const reviewStats = (() => {
 
 const faqs = [
   {
-    question: "Where are your storage units located in Cookeville, TN?",
+    question: "Who is Titan Exterior Washing?",
     answer:
-      "We are located at 2237 W Broad St in Cookeville, TN 38501. The property is easy to reach from I-40, Tennessee Tech University, and the West Broad Street corridor.",
+      "Titan Exterior Washing is run by two Tennessee Tech students focused on high-quality service, clear communication, and long-term trust with every homeowner.",
   },
   {
-    question: "Do you offer climate-controlled storage units in Cookeville?",
+    question: "What services do you offer?",
     answer:
-      "Yes. Climate-controlled storage helps protect furniture, documents, electronics, and photos from heat and humidity that are common in Cookeville, TN.",
+      "We provide house washing for brick and vinyl, concrete cleaning for driveways and patios, and fence cleaning to restore weathered surfaces.",
   },
   {
-    question: "Can I rent a storage unit online?",
+    question: "Are you insured?",
     answer:
-      "Yes. You can browse availability, pick a size, and complete your rental online any time.",
+      "Yes. Titan Exterior Washing is fully insured to protect you and your property.",
   },
   {
-    question: "What kinds of storage are available at your facility?",
+    question: "Where do you serve?",
     answer:
-      "Drive-up units, interior climate-controlled units, and outdoor parking for RVs, boats, and trailers are available.",
+      "We serve Cookeville and nearby Middle Tennessee communities.",
   },
   {
-    question: "How secure is the Cookeville storage facility?",
+    question: "How do I get a quote?",
     answer:
-      "The property has gated access, 24/7 video monitoring, and bright lighting to help keep your belongings protected. Each tenant gets an access code and the lot is designed for clear visibility.",
+      "Call us at (931) 316-9839 or use our services page to request pricing based on your property and project scope.",
   },
 ];
 
 const businessJsonLd = {
   "@context": "https://schema.org",
-  "@type": "SelfStorage",
-  name: "360 Storage Solutions",
+  "@type": "ProfessionalService",
+  name: "Titan Exterior Washing",
   url: SITE_URL,
-  telephone: "+1-931-209-4395",
+  telephone: "+1-931-316-9839",
   address: {
     "@type": "PostalAddress",
     streetAddress: "2237 W Broad St",
@@ -101,8 +100,8 @@ const businessJsonLd = {
     availability: "https://schema.org/InStock",
     itemOffered: {
       "@type": "Service",
-      name: "Self storage units",
-      areaServed: "Cookeville, TN",
+      name: "Exterior washing services",
+      areaServed: "Middle Tennessee",
     },
   },
   aggregateRating: {
@@ -140,9 +139,9 @@ const faqJsonLd = {
 
 export const metadata: Metadata = {
   title:
-    "Self Storage Units in Cookeville, TN | Climate-Controlled & Drive-Up Storage",
+    "About Titan Exterior Washing | Cookeville, TN",
   description:
-    "View climate-controlled, drive-up, and RV storage units in Cookeville, TN near West Broad Street. Compare sizes and rent online.",
+    "Meet Titan Exterior Washing: two Tennessee Tech students building a trusted exterior washing company through hard work, quality results, and personal service.",
   alternates: {
     canonical: "/storage-units-cookeville-tn",
   },
@@ -151,18 +150,16 @@ export const metadata: Metadata = {
 export default function CookevilleStoragePage() {
   return (
     <>
-      <Script
+      <script
         id="cookeville-local-business-jsonld"
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(businessJsonLd),
         }}
       />
-      <Script
+      <script
         id="cookeville-faq-jsonld"
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqJsonLd),
         }}
@@ -171,7 +168,7 @@ export default function CookevilleStoragePage() {
         <div className="absolute inset-0">
           <Image
             src={heroBackground}
-            alt="Storage facility at 360 Storage Solutions"
+            alt="Storage facility at Titan Exterior Washing"
             fill
             className="object-cover"
             priority
@@ -181,42 +178,39 @@ export default function CookevilleStoragePage() {
         <div className="relative container max-w-6xl py-20 md:py-28">
           <div className="max-w-3xl space-y-5 rounded-2xl bg-black/28 backdrop-blur-sm px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
             <p className="text-sm uppercase tracking-[0.3em] text-white/80">
-              Cookeville storage details
+              About Titan Exterior Washing
             </p>
             <h1 className="text-3xl md:text-5xl font-semibold">
-              Self Storage Units in Cookeville, TN
+              Built on hard work. Driven by trust.
             </h1>
             <p className="text-base md:text-lg text-white/90">
-              Climate-controlled, drive-up, and RV storage units are available near West Broad
-              Street in Cookeville, TN. Use this page to review unit types, access, and
-              location details before renting.
+              At Titan Exterior Washing, we are a team of two Tennessee Tech students and
+              aspiring entrepreneurs. Since 2025, we have built Titan through hard work,
+              dependable results, and personal relationships with the homeowners we serve.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link href={RENT_URL} className={buttonVariants({ size: "lg" })}>
-                View available units
+                View services
               </Link>
               <Link
                 href={PHONE_LINK}
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "lg" }),
-                  "bg-white text-slate-900 hover:bg-white/90"
-                )}
+                className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
               >
                 Call {PHONE_DISPLAY}
               </Link>
             </div>
             <p className="text-sm text-white/80">
-              Need a fast answer? Check{" "}
+              Need a fast answer? Explore our{" "}
               <Link href="/units" className="font-semibold underline underline-offset-4">
-                availability and pricing
+                services and pricing
               </Link>{" "}
-              and reserve your space in minutes.
+              or call us directly.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#B5D7E9]">
+      <section className="bg-[#B9CED6]">
         <div className="container max-w-6xl py-12 md:py-16 space-y-10">
           <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-start">
             <div className="space-y-4">
@@ -224,32 +218,26 @@ export default function CookevilleStoragePage() {
                 About us
               </h2>
               <p className="text-muted-foreground">
-                360 Storage Solutions is located at 2237 W Broad St in Cookeville, TN 38501, near
-                the West Broad Street corridor with quick access from I-40 and Tennessee Tech
-                University. This page covers unit types, access, and location details so you can
-                confirm fit before renting.
+                At Titan Exterior Washing, we are a team of two Tennessee Tech students,
+                aspiring entrepreneurs fueled by hard work and a dream. Since 2025, we have
+                grown Titan not just as a business, but as a bond and a personal connection
+                with every homeowner we serve.
               </p>
               <p className="text-muted-foreground">
-                Use the size guide to compare units, check availability online, and plan your
-                move-in based on your schedule. If you prefer to talk with someone first, call
-                the office for pricing or access questions.
-              </p>
-              <p className="text-muted-foreground">
-                Looking for brand details? Visit{" "}
-                <Link href="/" className="font-semibold text-primary underline underline-offset-4">
-                  360 Storage Solutions
-                </Link>{" "}
-                for the homepage overview.
+                We do not just wash homes, we build trust. Whether it is a full home exterior
+                clean, a concrete driveway refresh, or a fence that feels like new, we treat
+                your property like it matters because it does.
               </p>
             </div>
             <div className="rounded-2xl border bg-slate-50 p-6 shadow-sm space-y-4">
               <h3 className="text-xl font-semibold">Quick facts</h3>
               <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>Founded: 2025</li>
+                <li>Team: Two Tennessee Tech student entrepreneurs</li>
+                <li>Core services: House washing, concrete cleaning, fence cleaning</li>
+                <li>Protection: Fully insured to protect you and your property</li>
                 <li>Address: 2237 W Broad St, Cookeville, TN 38501</li>
-                <li>Access: 24/7 gate access for tenants</li>
-                <li>Units: climate-controlled and drive-up options</li>
-                <li>Parking: RV, boat, and trailer storage</li>
-                <li>Nearby: I-40, Tennessee Tech, West Broad Street</li>
+                <li>Service area: Cookeville and nearby Middle Tennessee communities</li>
               </ul>
               <Link
                 href={MAPS_LINK}
@@ -265,70 +253,71 @@ export default function CookevilleStoragePage() {
           <div className="grid gap-8 md:grid-cols-2 md:items-start">
             <div className="space-y-4">
               <h2 className="text-2xl md:text-3xl font-semibold">
-                Storage unit types available in Cookeville
+                Services we provide
               </h2>
               <p className="text-muted-foreground">
-                Climate-controlled units are available for temperature-sensitive items. Drive-up
-                units provide vehicle access for loading. Outdoor parking is available for RVs,
-                boats, and trailers. If you are unsure which size fits your needs, our{" "}
+                We deliver exterior cleaning services designed around your home and your priorities.
+                If you are not sure which service you need first, our{" "}
                 <Link href="/size-guide" className="font-semibold text-primary underline underline-offset-4">
-                  storage unit size guide
+                  service guide
                 </Link>{" "}
                 breaks down the most common options.
               </p>
             </div>
             <div className="rounded-2xl border bg-white p-6 shadow-sm space-y-4">
-              <h3 className="text-xl font-semibold">Popular storage options</h3>
+              <h3 className="text-xl font-semibold">Popular service options</h3>
               <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>Climate-controlled units for temperature-sensitive items</li>
-                <li>Drive-up units with vehicle access</li>
-                <li>Business storage for tools, inventory, and equipment</li>
-                <li>RV and boat parking on-site</li>
+                <li>House washing for brick and vinyl</li>
+                <li>Concrete driveway and patio cleaning</li>
+                <li>Fence brightening for wood and vinyl</li>
+                <li>Exterior refreshes for homeowners and small businesses</li>
               </ul>
               <Link href={RENT_URL} className={buttonVariants({ size: "lg" })}>
-                Check availability
+                Get service options
               </Link>
             </div>
           </div>
 
           <div className="space-y-4">
             <h2 className="text-2xl md:text-3xl font-semibold">
-              Who this storage works for
+              Who we serve
             </h2>
             <p className="text-muted-foreground">
-              Storage units are commonly used during moves, renovations, or seasonal changes.
-              Students often store belongings between semesters. Contractors and small
-              businesses use storage for tools and inventory. RV owners use outdoor parking
-              when driveway space is limited.
+              We work with homeowners who want reliable, respectful service and visible results.
+              We also help property managers and local businesses keep exteriors clean, safe,
+              and professional.
             </p>
             <p className="text-muted-foreground">
-              If you live near West Broad Street or Tennessee Tech, the location keeps storage
-              access close to your daily routes. For help deciding what size you need, start
-              with our{" "}
+              We are building more than a business. We are building relationships in our community.
+              And yes, we will even bring you a cup of coffee, because you are not just a customer,
+              you are part of this journey with us.
+            </p>
+            <p className="text-muted-foreground">
+              For help choosing the right service, start with our{" "}
               <Link href="/size-guide" className="font-semibold text-primary underline underline-offset-4">
-                Cookeville storage unit size guide
+                service guide
               </Link>{" "}
-              and compare options based on the items you plan to store.
+              and compare options based on your property needs.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#B5D7E9]">
+      <section className="bg-[#B9CED6]">
         <div className="container max-w-6xl py-12 md:py-16 space-y-8">
           <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-start">
             <div className="space-y-4">
               <h2 className="text-2xl md:text-3xl font-semibold">
-                Find our Cookeville storage facility on West Broad Street
+                Find Titan Exterior Washing in Cookeville
               </h2>
               <p className="text-muted-foreground">
-                The facility is located at 2237 W Broad St, Cookeville, TN 38501. It is a
-                short drive from I-40 and Tennessee Tech University, with access from the
+                Our office is located at 2237 W Broad St, Cookeville, TN 38501. It is a
+                short drive from I-40 and Tennessee Tech University, with convenient access from the
                 West Broad Street corridor.
               </p>
               <p className="text-muted-foreground">
                 Use the map to plan your route or call {PHONE_DISPLAY} with questions about
-                access hours, unit sizes, or availability.
+                scheduling, service scope, or pricing.
               </p>
             </div>
             <div className="rounded-2xl overflow-hidden border bg-white shadow-sm">
@@ -340,7 +329,7 @@ export default function CookevilleStoragePage() {
                 title="Cookeville storage units map"
               />
               <div className="p-4 space-y-2 text-sm text-muted-foreground">
-                <p className="font-semibold text-foreground">360 Storage Solutions</p>
+                <p className="font-semibold text-foreground">Titan Exterior Washing</p>
                 <p>2237 W Broad St</p>
                 <p>Cookeville, TN 38501</p>
                 <Link
@@ -358,14 +347,14 @@ export default function CookevilleStoragePage() {
         </div>
       </section>
 
-      <section className="bg-[#B5D7E9]">
+      <section className="bg-[#B9CED6]">
         <div className="container max-w-6xl py-12 md:py-16 space-y-8">
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl font-semibold">
-              Frequently asked questions about Cookeville storage
+              <h2 className="text-2xl md:text-3xl font-semibold">
+              Frequently asked questions
             </h2>
             <p className="text-muted-foreground">
-              Quick answers for renters looking for self storage in Cookeville, TN.
+              Quick answers for homeowners looking for exterior washing in Cookeville, TN.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
@@ -378,14 +367,14 @@ export default function CookevilleStoragePage() {
           </div>
           <div className="rounded-2xl border bg-slate-50 p-6 md:p-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h3 className="text-xl font-semibold">Reserve your Cookeville storage unit</h3>
+              <h3 className="text-xl font-semibold">Get your exterior washing quote</h3>
               <p className="text-sm text-muted-foreground">
-                Ready to get started? Compare unit sizes, check availability, and rent online.
+                Ready to get started? Compare service options and contact us for pricing.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link href={RENT_URL} className={buttonVariants({ size: "lg" })}>
-                View available units
+                View services
               </Link>
               <Link
                 href="/#contact"

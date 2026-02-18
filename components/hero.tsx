@@ -96,10 +96,7 @@ export function Hero(props: {
             {props.tertiaryCtaText && props.tertiaryCtaLink ? (
               <Link
                 href={props.tertiaryCtaLink}
-                className={cn(
-                  buttonVariants({ variant: "secondary", size: "lg" }),
-                  "bg-white text-slate-900 hover:bg-white/90"
-                )}
+                className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
               >
                 {props.tertiaryCtaText}
               </Link>

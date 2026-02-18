@@ -1,9 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import logoHorizontal from "@/assets/360 logo - Horizontal.png";
-import logoVertical from "@/assets/360 logo - Vertical.png";
-import logoMark from "@/assets/360 logo.png";
+import logoTitan from "@/assets/titan pressure washing llc logo.png";
 
 type LogoProps = {
   className?: string;
@@ -12,12 +10,7 @@ type LogoProps = {
 };
 
 export function Logo({ className, link, variant = "horizontal" }: LogoProps) {
-  const src =
-    variant === "vertical"
-      ? logoVertical
-      : variant === "mark"
-        ? logoMark
-        : logoHorizontal;
+  const src = logoTitan;
 
   const dimensions =
     variant === "vertical"
@@ -30,17 +23,17 @@ export function Logo({ className, link, variant = "horizontal" }: LogoProps) {
     <Link
       href={link ?? "/"}
       className={cn("flex items-center", className)}
-      aria-label="360 Storage Solutions"
+      aria-label="Titan Exterior Washing"
     >
       <Image
         src={src}
-        alt="360 Storage Solutions logo"
+        alt="Titan Exterior Washing logo"
         {...dimensions}
         priority
         className="h-16 w-auto md:h-20 drop-shadow-[0_8px_20px_rgba(0,0,0,0.18)]"
         sizes="(max-width: 768px) 200px, 260px"
       />
-      <span className="sr-only">360 Storage Solutions</span>
+      <span className="sr-only">Titan Exterior Washing</span>
     </Link>
   );
 }
